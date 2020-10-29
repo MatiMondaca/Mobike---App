@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "962383646715",
+    "firebase_url": "https://mobike-6ed65.firebaseio.com",
+    "project_id": "mobike-6ed65",
+    "storage_bucket": "mobike-6ed65.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:962383646715:android:4b04fbffba69b42938c55e",
+        "android_client_info": {
+          "package_name": "com.example.mobike"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "962383646715-6b7jnmusoaldhb7fi4cibiluh3s6to4l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCErXNj1qwvDj22VhcOi-hbLWoL1vs0ZVI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "962383646715-6b7jnmusoaldhb7fi4cibiluh3s6to4l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

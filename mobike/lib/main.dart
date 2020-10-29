@@ -6,7 +6,10 @@ import 'package:provider/provider.dart';
 import 'loginRegister/login/autenticacion/auth.dart';
 import 'loginRegister/login/loginScreen.dart';
 
-void main() async { //ERROR AQUI - MAIN
+Future<void> main() async {
+  //ERROR AQUI - MAIN
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(Mobike());
 }
 

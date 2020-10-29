@@ -8,31 +8,36 @@ class SingInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          TextField(
-            controller: emailController,
-            decoration: InputDecoration(
-              labelText: "Email",
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: [
+            TextField(
+              controller: emailController,
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                labelText: "Email",
+              ),
             ),
-          ),
-          TextField(
-            controller: passController,
-            decoration: InputDecoration(
-              labelText: "Contraseña",
+            TextField(
+              controller: passController,
+              keyboardType: TextInputType.visiblePassword,
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: "Contraseña",
+              ),
             ),
-          ),
-          RaisedButton(
-            onPressed: () {
-              context.read<AutenticacionServicio>().signIn(
-                    email: emailController.text.trim(),
-                    password: passController.text.trim(),
-                  );
-            },
-            child: Text("Logeado"),
-          ),
-        ],
+            RaisedButton(
+              onPressed: () {
+                context.read<AutenticacionServicio>().signIn(
+                      email: emailController.text.trim(),
+                      password: passController.text.trim(),
+                    );
+              },
+              child: Text("Logeado"),
+            ),
+          ],
+        ),
       ),
     );
   }

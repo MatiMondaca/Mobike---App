@@ -12,7 +12,7 @@ class AutenticacionServicio {
     await _firebaseAuth.signOut();
   }
 
-  Future<String> signIn({String email, String password}) async {
+  Future<void> signIn({String email, String password}) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
@@ -20,7 +20,11 @@ class AutenticacionServicio {
       );
       return "Se inicio sesion correctamente";
     } on FirebaseAuthException catch (e) {
-      return e.message;
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
     }
   }
 }

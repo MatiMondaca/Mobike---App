@@ -9,10 +9,12 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
+        
         child: Center(
           child: Column(
             children: [
-              Text("Bienvenido"),
+              Padding(padding: EdgeInsets.all(80.0), child:
+              Text("Bienvenido",style:  TextStyle(fontSize: 50.0,fontWeight: FontWeight.normal))),
               RaisedButton(
                 onPressed: () {
                   context.read<AutenticacionServicio>().signOut();

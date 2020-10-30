@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'loginRegister/login/autenticacion/auth.dart';
 import 'loginRegister/login/loginScreen.dart';
 
+
+
 Future<void> main() async {
   //ERROR AQUI - MAIN
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +32,8 @@ class Mobike extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(visualDensity: VisualDensity.adaptivePlatformDensity),
         home: Autenticacion(),
+        color: Colors.blue,
+        
       ),
     );
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/plugin_api.dart';
 import 'package:provider/provider.dart';
 import 'autenticacion/auth.dart';
+import 'package:latlong/latlong.dart';
 
 class SingInPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -87,13 +89,12 @@ class SingInPage extends StatelessWidget {
                 onPressed: () {
                   try {
                     context.read<AutenticacionServicio>().signIn(
-                        email: emailController.text.trim(),
-                        password: passController.text.trim(),
-                      );
+                          email: emailController.text.trim(),
+                          password: passController.text.trim(),
+                        );
                   } catch (e) {
                     return print(e);
                   }
-                  
                 },
                 child: Text(
                   "Iniciar Sesión",

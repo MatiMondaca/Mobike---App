@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/plugin_api.dart';
-import 'package:provider/provider.dart';
-import 'package:mobike/loginRegister/login/autenticacion/auth.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 
-import 'map/mapScreen.dart';
-
-class HomePage extends StatefulWidget {
-  const HomePage({Key key}) : super(key: key);
+class MobikeMap extends StatelessWidget {
+  const MobikeMap({Key key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: MobikeMapaBicicleta(),
+    );
+  }
 }
 
-class _HomePageState extends State<HomePage> {
+class MobikeMapaBicicleta extends StatefulWidget {
+  MobikeMapaBicicleta({Key key}) : super(key: key);
+
+  @override
+  _MapMobikeState createState() => _MapMobikeState();
+}
+
+class _MapMobikeState extends State<MobikeMapaBicicleta> {
   Widget appbar = Text(
     "Home",
     style: TextStyle(
@@ -45,7 +53,7 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(Icons.settings),
               color: Colors.black,
               iconSize: 30.0,
-              onPressed: () {context.read<AutenticacionServicio>().signOut();},
+              onPressed: () {},
             ),
           ),
         ],
@@ -53,8 +61,8 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: FlutterMap(
           options: MapOptions(
-            center: LatLng(-33.442187, -70.543300),
-            zoom: 14,
+            center: LatLng(-33.443, -70.544),
+            zoom: 16,
           ),
           layers: [
             TileLayerOptions(
@@ -69,15 +77,13 @@ class _HomePageState extends State<HomePage> {
             MarkerLayerOptions(
               markers: [
                 Marker(
-                  width: 50.0,
-                  height: 50.0,
-                  point: LatLng(-33.442187, -70.543300),
+                  width: 100.0,
+                  height: 100.0,
+                  point: LatLng(-33.443, -70.544),
                   builder: (ctx) => Container(
                     child: Icon(
                       Icons.location_pin,
                       color: Colors.red,
-                      size: 50.0,
-                      
                     ),
                   ),
                 ),
@@ -86,55 +92,12 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      floatingActionButton: Container(
-        height: 70.0,
-        width: 70.0,
-        child: FittedBox(
-          child: FloatingActionButton(
-            onPressed: () {},
-            child: Icon(Icons.search),
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.search),
 
-      // BottonApBar
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        child: Container(
-          height: 70.0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [],
-          ),
-        ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
-
-// Padding(
-//   padding: const EdgeInsets.all(20),
-//   child: Text(
-//     "Bienvenido a Mobike",
-//     style: TextStyle(fontSize: 30.0),
-//   ),
-// ),
-// RaisedButton(
-//   padding: EdgeInsets.symmetric(
-//     horizontal: 40.0,
-//     vertical: 15.0,
-//   ),
-//   child: Text(
-//     "Cerrar Sesión",
-//     style: TextStyle(fontSize: 20.0),
-//   ),
-//   elevation: 5.0,
-//   splashColor: Colors.blue,
-//   shape: RoundedRectangleBorder(
-//     borderRadius: BorderRadius.circular(15),
-//   ),
-//   onPressed: () {
-//     context.read<AutenticacionServicio>().signOut();
-//   },
-// ),

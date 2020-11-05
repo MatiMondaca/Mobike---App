@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:mobike/home/homeScreen.dart';
 import 'package:provider/provider.dart';
+import 'home/map/mapScreen.dart';
 import 'loginRegister/login/autenticacion/auth.dart';
 import 'loginRegister/login/loginScreen.dart';
 

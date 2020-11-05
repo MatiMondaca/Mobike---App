@@ -11,6 +11,8 @@ class FlutterMapMobike extends StatelessWidget {
     return FlutterMap(
       options: MapOptions(
         center: LatLng(-33.442187, -70.543300),
+        maxZoom: 14,
+        minZoom: 14,
         zoom: 14,
       ),
       layers: [

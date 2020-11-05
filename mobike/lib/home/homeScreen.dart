@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mobike/loginRegister/login/autenticacion/auth.dart';
+import 'userProfileScreen/userProfile.dart';
 import '../const.dart';
 import 'map/mapScreen.dart';
 
@@ -12,7 +13,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,9 +26,16 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.person),
             color: Colors.black,
             iconSize: 30.0,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => UserProfile(),
+                ),
+              );
+            },
           ),
         ),
+
         ///
         /// ACTIONS
         ///
@@ -46,6 +53,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+
       ///
       /// BODY
       ///
@@ -83,4 +91,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-

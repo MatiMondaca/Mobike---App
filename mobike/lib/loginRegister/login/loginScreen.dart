@@ -10,11 +10,24 @@ class SingInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      
       child: Scaffold(
+        
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
-        body: SingleChildScrollView(
+        
+        body: Container(height: MediaQuery.of(context).size.height,
+    width: MediaQuery.of(context).size.width,
+    decoration: BoxDecoration(
+      gradient: LinearGradient(
+          colors: [Colors.purple[50], Colors.purple[300]],
+          begin: Alignment.topLeft,
+          end: Alignment.centerRight),
+    ),
+    
+     child:SingleChildScrollView(
           child: Column(
+    
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
@@ -109,6 +122,7 @@ class SingInPage extends StatelessWidget {
           ),
         ),
       ),
+    )
     );
   }
 }

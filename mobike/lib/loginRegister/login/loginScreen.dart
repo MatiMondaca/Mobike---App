@@ -11,9 +11,12 @@ class SingInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      
       child: Scaffold(
+        
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
+
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.only(top: 100.0),
@@ -30,6 +33,7 @@ class SingInPage extends StatelessWidget {
                         fontSize: 60.0,
                         fontWeight: FontWeight.normal,
                       ),
+
                     ),
                   ),
                 ),

@@ -33,7 +33,7 @@ dependencies:
     
   firebase_auth: 
   firebase_core:
-  flutter_map: any
+  flutter_map: 
   flutter_svg:
 
   provider:
@@ -70,7 +70,7 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Century Gothic
+    - family: Century-Gothic
       fonts:
         - asset: assets/fonts/CenturyGothic.ttf
         

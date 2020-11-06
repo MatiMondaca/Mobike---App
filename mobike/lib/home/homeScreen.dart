@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mobike/loginRegister/login/autenticacion/auth.dart';
 import 'settingsSreen/settingScreen.dart';
 import 'userProfileScreen/userProfile.dart';
+import 'package:provider/provider.dart';
 import '../const.dart';
 import 'map/mapScreen.dart';
 
@@ -27,6 +29,7 @@ class _HomePageState extends State<HomePage> {
             iconSize: 30.0,
             onPressed: () {
               _pushPage(context, UserProfile());
+              //_pushPage(context, UserProfile());
             },
           ),
         ),

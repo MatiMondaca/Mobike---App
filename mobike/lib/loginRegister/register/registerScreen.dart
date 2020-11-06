@@ -1,16 +1,19 @@
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
-// class RegisterSreen extends StatelessWidget {
-//   const RegisterSreen({Key key}) : super(key: key);
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({Key key}) : super(key: key);
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text("Registro"),
-//       ),
-//       body: SafeArea(
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        body: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
+    );
+  }
+}

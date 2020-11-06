@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mobike/loginRegister/login/autenticacion/auth.dart';
+import 'settingsSreen/settingScreen.dart';
 import 'userProfileScreen/userProfile.dart';
 import '../const.dart';
 import 'map/mapScreen.dart';
@@ -47,7 +48,12 @@ class _HomePageState extends State<HomePage> {
               color: Colors.black,
               iconSize: 30.0,
               onPressed: () {
-                context.read<AutenticacionServicio>().signOut();
+                Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => SettingsScreen(),
+                ),
+              );
+                //context.read<AutenticacionServicio>().signOut();
               },
             ),
           ),

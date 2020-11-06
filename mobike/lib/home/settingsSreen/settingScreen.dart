@@ -10,13 +10,20 @@ class SettingsScreen extends StatelessWidget {
     return Container(
       child: Center(
         child: Scaffold(
-          body: SafeArea(
-            child: Center(
-              child: RaisedButton(
-                onPressed: () {
-                  context.read<AutenticacionServicio>().signOut();
-                },
-              ),
+          body: Container(
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: RaisedButton(
+                        onPressed: null,
+                        child: SizedBox(
+                          width: 100,
+                          height: 100,
+                          child: Text("Opción uno", textAlign: TextAlign.center,)),
+                  ),
+                )
+              ]
             ),
           ),
         ),

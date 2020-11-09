@@ -1,22 +1,22 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobike/loginRegister/register/registerScreen.dart';
-import 'package:provider/provider.dart';
+
 import 'autenticacion/auth.dart';
 
 class SingInPage extends StatelessWidget {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passController = TextEditingController();
   final TextStyle estilo = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      
       child: Scaffold(
-        
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
-
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.only(top: 100.0),
@@ -33,7 +33,6 @@ class SingInPage extends StatelessWidget {
                         fontSize: 60.0,
                         fontWeight: FontWeight.normal,
                       ),
-
                     ),
                   ),
                 ),
@@ -46,12 +45,13 @@ class SingInPage extends StatelessWidget {
                     onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
                     style: estilo,
                     validator: (String val) {
-                      if (val.isEmpty) {
+                      if (!val.contains("@")) {
                         return "Ingrese un correo valido";
+                      } else {
+                        return null;
                       }
-                      return null;
                     },
-                    controller: emailController,
+                    controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       contentPadding:
@@ -75,9 +75,9 @@ class SingInPage extends StatelessWidget {
                       if (val.isEmpty) {
                         return "Ingrese un correo valido";
                       }
-                      return null;
+                      return '';
                     },
-                    controller: passController,
+                    controller: _passController,
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
                     style: estilo,
@@ -97,14 +97,51 @@ class SingInPage extends StatelessWidget {
                   child: RaisedButton(
                     padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                     color: Colors.blue,
-                    onPressed: () {
-                      try {
-                        context.read<AutenticacionServicio>().signIn(
-                              email: emailController.text.trim(),
-                              password: passController.text.trim(),
-                            );
-                      } catch (e) {
-                        return print(e);
+                    onPressed: () async {
+                      if (_emailController.text.isEmpty ||
+                          _passController.text.isEmpty) {
+                        return Fluttertoast.showToast(
+                            msg: "Correo y contraseña no pueden estar vacios",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      } else if (!validarCorreo(_emailController.text)) {
+                        return Fluttertoast.showToast(
+                            msg: "Correo invalido",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      } else {
+                        try {
+                          final user =
+                              await AutenticacionServicio.entrarConEmail(
+                                  email: _emailController.text,
+                                  password: _passController.text);
+                          print('paso 1');
+                          if (user != null) {
+                            print("Inicio de sesión correcto");
+                          }
+                        } on FirebaseAuthException catch (e) {
+                          print('error 1');
+                          if (e.code == 'user-not-found') {
+                            
+                              return Fluttertoast.showToast(
+                                  msg: "Cuenta no encontrada",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Colors.red,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0);
+                            
+                          }
+                        }
                       }
                     },
                     child: Text(
@@ -127,6 +164,13 @@ class SingInPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  bool validarCorreo(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    return (!regex.hasMatch(value)) ? false : true;
   }
 
   void _pushPage(BuildContext context, Widget page) {

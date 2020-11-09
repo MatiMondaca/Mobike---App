@@ -71,7 +71,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       textColor: Colors.red,
                       color: Colors.white,
                       onPressed: () {
-                        context.read<AutenticacionServicio>().signOut();
+                        AutenticacionServicio.cerrarSesion();
                         _popPage(context);
                       },
                       shape: RoundedRectangleBorder(

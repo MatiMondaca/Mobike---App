@@ -12,7 +12,7 @@ class AutenticacionServicio {
       final res = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       final User user = res.user;
-      print('paso 2');
+      
     } catch (error) {
       
         Fluttertoast.showToast(
@@ -26,7 +26,7 @@ class AutenticacionServicio {
       
     }
 
-    // TODO
+  
   }
 
   static cerrarSesion() {

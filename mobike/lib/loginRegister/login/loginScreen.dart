@@ -130,16 +130,14 @@ class SingInPage extends StatelessWidget {
                         } on FirebaseAuthException catch (e) {
                           print('error 1');
                           if (e.code == 'user-not-found') {
-                            
-                              return Fluttertoast.showToast(
-                                  msg: "Cuenta no encontrada",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.BOTTOM,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor: Colors.red,
-                                  textColor: Colors.white,
-                                  fontSize: 16.0);
-                            
+                            return Fluttertoast.showToast(
+                                msg: "Cuenta no encontrada",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
                           }
                         }
                       }

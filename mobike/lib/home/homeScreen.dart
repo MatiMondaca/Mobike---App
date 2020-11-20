@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mobike/Assist/AssistPage.dart';
 
-
 import 'settingsSreen/settingScreen.dart';
 import 'userProfileScreen/userProfile.dart';
 import '../const.dart';
 import 'map/mapScreen.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key key}) : super(key: key);
-
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -27,7 +24,7 @@ class _HomePageState extends State<HomePage> {
           child: IconButton(
             icon: Icon(Icons.person),
             color: Colors.black,
-            iconSize: 30.0,
+            iconSize: 40.0,
             onPressed: () {
               _pushPage(context, UserProfile());
               //_pushPage(context, UserProfile());
@@ -44,11 +41,9 @@ class _HomePageState extends State<HomePage> {
             child: IconButton(
               icon: Icon(Icons.settings),
               color: Colors.black,
-              iconSize: 30.0,
+              iconSize: 40.0,
               onPressed: () {
                 _pushPage(context, SettingsScreen());
-
-                //context.read<AutenticacionServicio>().signOut();
               },
             ),
           ),
@@ -58,8 +53,11 @@ class _HomePageState extends State<HomePage> {
       ///
       /// BODY
       ///
-      body: SafeArea(
-        child: FlutterMapMobike(),
+      body: WillPopScope(
+        onWillPop: _salirApp,
+        child: SafeArea(
+          child: MapMobike(),
+        ),
       ),
 
       ///
@@ -125,6 +123,17 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // Metodo para la alerta al momento de presionar el boton back
+  Future<bool> _salirApp() {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return cuerpoAlerta(context);
+      },
+    );
+  }
+
+  // Metodo para pasar a otra ventana
   void _pushPage(BuildContext context, Widget page) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(builder: (_) => page),

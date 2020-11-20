@@ -37,6 +37,11 @@ dependencies:
   firebase_core:
   flutter_map: 
   flutter_svg:
+  firebase_database: ^4.3.0
+  awesome_card: ^1.1.0
+  flutter_multi_formatter: ^1.1.8
+  flutter_spinkit: "^4.1.2"
+
 
   provider:
 
@@ -58,7 +63,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/svg/
+    - assets/svg/pinBici.svg
     - alerta.png
     - sos.png
 

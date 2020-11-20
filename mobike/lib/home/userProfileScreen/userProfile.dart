@@ -24,13 +24,10 @@ class _UserProfileState extends State<UserProfile> {
           ),
         ),
         body: SingleChildScrollView(
-          
           child: Padding(
             padding: const EdgeInsets.all(10.0),
-             
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              
               children: [
                 Icon(
                   Icons.person,
@@ -40,30 +37,26 @@ class _UserProfileState extends State<UserProfile> {
                   padding: const EdgeInsets.all(8.0),
                   child: Text('Saldo:'),
                 ),
-                
                 Container(
                   width: 200,
                   alignment: Alignment.center,
                   child: TextFormField(
                     textAlign: TextAlign.end,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(
+                      border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5)),
-                        labelText: '                 1000' ,
-                        enabled: false,),
-
+                      labelText: '                 1000',
+                      enabled: false,
+                    ),
                   ),
                 ),
-                
                 Padding(
                   padding: const EdgeInsets.all(12),
                   child: Text("Rut:"),
                 ),
                 TextFormField(
                   textAlignVertical: TextAlignVertical.center,
-                  
                   decoration: InputDecoration(
-                  
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(40)),
                       labelText: '     25.123.568-9',
@@ -131,12 +124,10 @@ class _UserProfileState extends State<UserProfile> {
                       onPressed: () {},
                       child: Text("        Actualizar Contraseña        ")),
                 ),
-                
               ],
             ),
           ),
-        
-      ),
+        ),
       ),
     );
   }

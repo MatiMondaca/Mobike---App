@@ -43,7 +43,6 @@ dependencies:
   flutter_spinkit: ^4.1.2
 
 
-
   provider:
 
 
@@ -65,7 +64,13 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/svg/pinBici.svg
-    - assets/svg/bicicleta.svg
+    - assets/svg/arbol.svg
+    - assets/svg/bici_persona.svg
+    - assets/svg/biciPersona2.svg
+    - assets/svg/loginSvg.svg
+    - assets/svg/persona_sentada.svg
+    - assets/svg/persona.svg
+    
     - alerta.png
     - sos.png
 

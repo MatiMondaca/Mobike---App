@@ -1,5 +1,3 @@
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,6 +12,7 @@ import 'package:mobike/loginRegister/login/recuperarContrase%C3%B1a/recuperarCla
 import 'package:mobike/loginRegister/register/registerScreen.dart';
 
 import 'autenticacion/auth.dart';
+import '../../utils/responsivo.dart';
 
 class SingInPage extends StatefulWidget {
   @override
@@ -36,23 +35,7 @@ class _SingInPageState extends State<SingInPage> {
       scaffoldBackgroundColor: Colors.white,
       fontFamily: "Muli",
       brightness: Brightness.light,
-      appBarTheme: appBarTheme(),
       visualDensity: VisualDensity.adaptivePlatformDensity,
-    );
-  }
-
-  AppBarTheme appBarTheme() {
-    return AppBarTheme(
-      color: Colors.white,
-      elevation: 0,
-      brightness: Brightness.light,
-      iconTheme: IconThemeData(color: Colors.black),
-      textTheme: TextTheme(
-        headline6: TextStyle(
-          color: Color(0XFF8B8B8B),
-          fontSize: 20,
-        ),
-      ),
     );
   }
 
@@ -74,123 +57,144 @@ class _SingInPageState extends State<SingInPage> {
   }
 }
 
-class VentanaLogin extends StatelessWidget {
+class VentanaLogin extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Unfocuser(
-      child: Scaffold(
-        // resizeToAvoidBottomPadding: false,
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text("Inicio de Sesión"),
-        ),
-        body: CuerpoLogin(),
-      ),
-    );
-  }
+  _VentanaLoginState createState() => _VentanaLoginState();
 }
 
-class CuerpoLogin extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: SizedBox(
-          width: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: Column(
-              children: [
-                SizedBox(height: 10),
-                Text(
-                  "¡Bienvenido de vuelta!",
-                  style: TextStyle(
-                    color: Color.fromRGBO(255, 96, 39, 1),
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  "Inicia sesión con tu correo y contraseña \npara ingresar.",
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 70),
-                FormularioDatos(),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class FormularioDatos extends StatefulWidget {
-  @override
-  _FormularioDatosState createState() => _FormularioDatosState();
-}
-
-class _FormularioDatosState extends State<FormularioDatos> {
+class _VentanaLoginState extends State<VentanaLogin> {
+  bool cargar = false;
   FocusNode _correoFocus = FocusNode();
   FocusNode _claveFocus = FocusNode();
 
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _claveController = TextEditingController();
+
+  GlobalKey<FormState> _formKeyLogin = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return Form(
-      child: Column(
-        children: [
-          buildTextFormFieldCorreo(),
-          SizedBox(height: 30.0),
-          buildTextFormFieldClave(),
-          SizedBox(height: 5.0),
-          Row(
-            children: [
-              Spacer(),
-              FlatButton(
-                onPressed: () {},
-                child: Text(
-                  "¿Olvidaste tu contraseña?",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+    final responsivo = Responsivo.of(context);
+    return Unfocuser(
+      child: cargar
+          ? CargarPag()
+          : Scaffold(
+              resizeToAvoidBottomPadding: false,
+              body: SafeArea(
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Column(
+                      children: [
+                        SizedBox(height: responsivo.altoPantalla(2)),
+                        Text(
+                          "¡Bienvenido otra vez!",
+                          style: TextStyle(
+                            color: Color.fromRGBO(108, 99, 255, 1),
+                            fontSize: responsivo.diagonalPantalla(3.4),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          "Inicia sesión con tu correo y contraseña",
+                          textAlign: TextAlign.center,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Para ingresar a "),
+                            Text(
+                              "MoBike.",
+                              style: TextStyle(
+                                color: Color.fromRGBO(108, 99, 255, 1),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: responsivo.diagonalPantalla(7)),
+                        Form(
+                          key: _formKeyLogin,
+                          child: Column(
+                            children: [
+                              buildTextFormFieldCorreo(),
+                              SizedBox(height: responsivo.altoPantalla(4)),
+                              buildTextFormFieldClave(),
+                              SizedBox(height: responsivo.altoPantalla(1)),
+                              Row(
+                                children: [
+                                  Spacer(),
+                                  FlatButton(
+                                    onPressed: () {},
+                                    child: Text(
+                                      "¿Olvidaste tu contraseña?",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height: responsivo.altoPantalla(7)),
+                              Boton(
+                                textoBoton: "Iniciar Sesión",
+                                presionar: () async {
+                                  if (_formKeyLogin.currentState.validate()) {
+                                    if (validarCorreo(_emailController.text)) {
+                                      setState(() => cargar = true);
+                                      try {
+                                        final user = await AutenticacionServicio
+                                            .entrarConEmail(
+                                          email: _emailController.text,
+                                          password: _claveController.text,
+                                        );
+
+                                        print('paso 1 ---');
+                                        print(user);
+                                        if (user != null) {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) => HomePage(),
+                                            ),
+                                          );
+                                          print("Inicio de sesión correcto");
+                                        } else {
+                                          setState(() => cargar = false);
+                                        }
+                                      } on FirebaseAuthException catch (e) {
+                                        print(e.code);
+                                      }
+                                    } else {
+                                      return Fluttertoast.showToast(
+                                        msg: "Correo y/o contraseña invalidos",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.red,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0,
+                                      );
+                                    }
+                                  }
+                                },
+                                color: Color.fromRGBO(108, 99, 255, 1),
+                              ),
+                              ParteInferior()
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              )
-            ],
-          ),
-          SizedBox(height: 40.0),
-          Boton(
-            textoBoton: "Iniciar Sesión",
-            presionar: () {},
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "¿Aún no tienes cuenta? ",
-                style: TextStyle(
-                  fontSize: 15,
-                ),
               ),
-              FlatButton(
-                onPressed: ventanaRegistrarse,
-                child: Text(
-                  "Regístrate",
-                  style: TextStyle(
-                    color: Color.fromRGBO(255, 96, 39, 1),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+            ),
     );
   }
 
   TextFormField buildTextFormFieldCorreo() {
     return TextFormField(
+      controller: _emailController,
       autocorrect: true,
       obscureText: false,
       maxLines: 1,
@@ -211,6 +215,7 @@ class _FormularioDatosState extends State<FormularioDatos> {
 
   TextFormField buildTextFormFieldClave() {
     return TextFormField(
+      controller: _claveController,
       autocorrect: true,
       obscureText: true,
       maxLines: 1,
@@ -226,11 +231,14 @@ class _FormularioDatosState extends State<FormularioDatos> {
       ),
     );
   }
+}
 
-  Future<void> ventanaRegistrarse() {
-    return Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => RegisterScreen(null)));
-  }
+// VALIDACION DE FORMATO CORREO
+bool validarCorreo(String value) {
+  Pattern pattern =
+      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+  RegExp regex = RegExp(pattern);
+  return (!regex.hasMatch(value)) ? false : true;
 }
 
 class Boton extends StatelessWidget {
@@ -238,10 +246,12 @@ class Boton extends StatelessWidget {
     Key key,
     this.textoBoton,
     this.presionar,
+    this.color,
   }) : super(key: key);
 
   final String textoBoton;
   final Function presionar;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -250,7 +260,7 @@ class Boton extends StatelessWidget {
       height: 55,
       child: FlatButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        color: Color.fromRGBO(255, 96, 39, 1),
+        color: color,
         onPressed: presionar,
         child: Text(
           textoBoton,
@@ -260,6 +270,71 @@ class Boton extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class ParteInferior extends StatelessWidget {
+  const ParteInferior({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final responsivo = Responsivo.of(context);
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "¿Aún no tienes cuenta? ",
+              style: TextStyle(
+                fontSize: responsivo.diagonalPantalla(1.6),
+              ),
+            ),
+            FlatButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => RegisterScreen(null)));
+              },
+              child: Text(
+                "Regístrate",
+                style: TextStyle(
+                  color: Color.fromRGBO(108, 99, 255, 1),
+                  fontWeight: FontWeight.bold,
+                  fontSize: responsivo.diagonalPantalla(1.8),
+                ),
+              ),
+            ),
+          ],
+        ),
+        AspectRatio(
+          aspectRatio: 16 / 9,
+          child: LayoutBuilder(builder: (_, constraints) {
+            return Container(
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: constraints.maxHeight * 0.95,
+                    child: Container(
+                      height: constraints.maxHeight,
+                      width: constraints.maxWidth,
+                      color: Color.fromRGBO(225, 227, 231, 1),
+                    ),
+                  ),
+                  Positioned(
+                    top: constraints.maxHeight * 0.15,
+                    left: constraints.maxWidth * 0.2,
+                    child: SvgPicture.asset(
+                      'assets/svg/bici_persona.svg',
+                      width: constraints.maxWidth * 0.65,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
+        )
+      ],
     );
   }
 }

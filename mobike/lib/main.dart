@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:mobike/home/homeScreen.dart';
-import 'loginRegister/login/loginScreen.dart';
+import 'package:mobike/loginRegister/login/loginScreen.dart';
 
 Future<void> main() async {
   //ERROR AQUI - MAIN
@@ -11,9 +10,6 @@ Future<void> main() async {
   await Firebase.initializeApp();
   runApp(Mobike());
 }
-
-DatabaseReference usuarioRef =
-    FirebaseDatabase.instance.reference().child("usuarios");
 
 class Mobike extends StatelessWidget {
   @override
@@ -28,7 +24,6 @@ class Mobike extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(visualDensity: VisualDensity.adaptivePlatformDensity),
       home: Autenticacion(),
-      color: Colors.blue,
     );
   }
 }

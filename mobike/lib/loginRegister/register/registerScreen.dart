@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobike/loginRegister/login/autenticacion/auth.dart';
 import 'package:mobike/loginRegister/login/loginScreen.dart';
 import 'package:mobike/loginRegister/register/tarjetaCredito/tarjetaScreen.dart';
 import 'package:mobike/const.dart';
@@ -23,7 +22,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController rutController = TextEditingController();
   TextEditingController nombreController = TextEditingController();
   TextEditingController apellidoController = TextEditingController();
-  TextEditingController claveController = TextEditingController();
+  TextEditingController comunaController = TextEditingController();
   TextEditingController direccionController = TextEditingController();
   TextEditingController correoController = TextEditingController();
   TextEditingController celularController = TextEditingController();
@@ -56,7 +55,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               icon: Icon(Icons.arrow_back),
               onPressed: () {
                 _popPage(context);
-                _pushPage(context, SingInPage());
               },
             ),
           ),
@@ -103,7 +101,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       style: TextStyle(fontSize: 25.0),
                     ),
                   ),
-                  buildCampoTextoRegistro(claveController),
+                  buildCampoTextoRegistro(comunaController),
 
                   //
                   Padding(
@@ -209,12 +207,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           onPressed: () {
                             try {
-                              AutenticacionServicio.registrarUsuario(
-                                  correoController.text,
-                                  claveController.text,
-                                  nombreController.text,
-                                  apellidoController.text,
-                                  rutController.text);
+                              // AutenticacionServicio.registrarUsuario(
+                              //     correoController.text,
+                              //     claveController.text,
+                              //     nombreController.text,
+                              //     apellidoController.text,
+                              //     rutController.text);
                             } catch (e) {
                               print(e);
                             }

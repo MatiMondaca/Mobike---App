@@ -5,6 +5,7 @@ import 'package:mobike/loginRegister/login/autenticacion/auth.dart';
 import 'package:mobike/loginRegister/register/registerScreen.dart';
 
 const iconBicicleta = 'assets/svg/pinBici.svg';
+const iconBicicletaLogin = 'assets/svg/bicicleta.svg';
 
 ///
 /// Titulo AppBar Home

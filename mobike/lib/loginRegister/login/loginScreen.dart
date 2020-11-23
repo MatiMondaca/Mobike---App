@@ -1,13 +1,17 @@
+
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_multi_formatter/utils/unfocuser.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobike/home/homeScreen.dart';
 
 import 'package:mobike/const.dart';
 import 'package:mobike/loginRegister/login/cargarSiguiente.dart';
 import 'package:mobike/loginRegister/login/recuperarContrase%C3%B1a/recuperarClave.dart';
+import 'package:mobike/loginRegister/register/registerScreen.dart';
 
 import 'autenticacion/auth.dart';
 
@@ -17,249 +21,245 @@ class SingInPage extends StatefulWidget {
 }
 
 class _SingInPageState extends State<SingInPage> {
-  final TextEditingController _emailController = TextEditingController();
-
-  final TextEditingController _passController = TextEditingController();
-
-  final TextStyle estilo = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
-
-  final GlobalKey<FormState> _formKeyLogin = GlobalKey<FormState>();
-
-  bool cargar = false;
-
   @override
   Widget build(BuildContext context) {
-    return Unfocuser(
-      child: WillPopScope(
-        onWillPop: salirApp,
-        child: SafeArea(
-          child: cargar
-              ? CargarPag()
-              : Scaffold(
-                  backgroundColor: Colors.white,
-                  body: SingleChildScrollView(
-                    child: Form(
-                      key: _formKeyLogin,
-                      child: Column(
-                        children: [
-                          ///
-                          /// Titulo 'Mobike'
-                          ///
-                          Title(
-                            color: Colors.black,
-                            child: Text(
-                              "MoBike",
-                              style: TextStyle(
-                                fontSize: 60.0,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: VentanaLogin(),
+      theme: theme(),
+    );
+  }
 
-                          ///
-                          /// METODOS => CORREO - CONTRASEÑA
-                          /// TextFormField convertidos en metodos para orderar el código
-                          ///
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 20.0),
-                            child: buildCorreo(context),
-                          ), // Correo
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 20.0),
-                            child: buildPassword(context),
-                          ), // Contraseña
+  ThemeData theme() {
+    return ThemeData(
+      inputDecorationTheme: inputDecorationTheme(),
+      scaffoldBackgroundColor: Colors.white,
+      fontFamily: "Muli",
+      brightness: Brightness.light,
+      appBarTheme: appBarTheme(),
+      visualDensity: VisualDensity.adaptivePlatformDensity,
+    );
+  }
 
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: 10.0, bottom: 10.0, right: 20.0),
-                            child: Container(
-                              width: double.infinity,
-                              child: InkWell(
-                                onTap: () {
-                                  _pushPage(context, RecuperarClave());
-                                },
-                                child: Text(
-                                  "¿Olvidó su contraseña?",
-                                  textAlign: TextAlign.right,
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          ///
-                          /// Botón Inicio de Sesión
-                          ///
-                          RaisedButton(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 25, vertical: 10),
-                            color: Colors.blue,
-                            onPressed: () async {
-                              if (_formKeyLogin.currentState.validate()) {
-                                if (validarCorreo(_emailController.text)) {
-                                  setState(() => cargar = true);
-                                  try {
-                                    final user = await AutenticacionServicio
-                                        .entrarConEmail(
-                                      email: _emailController.text,
-                                      password: _passController.text,
-                                    );
-
-                                    print('paso 1 ---');
-                                    print(user);
-                                    if (user != null) {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) => HomePage()),
-                                      );
-                                      print("Inicio de sesión correcto");
-                                    } else {
-                                      setState(() => cargar = false);
-                                    }
-                                  } on FirebaseAuthException catch (e) {
-                                    if (e.code == 'user-not-found') {
-                                      return Fluttertoast.showToast(
-                                        msg: "Cuenta no encontrada",
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.BOTTOM,
-                                        timeInSecForIosWeb: 1,
-                                        backgroundColor: Colors.red,
-                                        textColor: Colors.white,
-                                        fontSize: 16.0,
-                                      );
-                                    }
-                                  }
-                                } else {
-                                  return Fluttertoast.showToast(
-                                    msg: "Correo invalido",
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.BOTTOM,
-                                    timeInSecForIosWeb: 1,
-                                    backgroundColor: Colors.red,
-                                    textColor: Colors.white,
-                                    fontSize: 16.0,
-                                  );
-                                }
-                              }
-                            },
-                            child: Text(
-                              "Iniciar Sesión",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white),
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                          ),
-
-                          ///
-                          /// Botón Registrarse
-                          ///
-                          FlatButton(
-                            onPressed: () {
-                              pagRegistro.numero = '';
-                              _popPage(context);
-                              _pushPage(context, pagRegistro);
-                            },
-                            child: Text("Registrarse"),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+  AppBarTheme appBarTheme() {
+    return AppBarTheme(
+      color: Colors.white,
+      elevation: 0,
+      brightness: Brightness.light,
+      iconTheme: IconThemeData(color: Colors.black),
+      textTheme: TextTheme(
+        headline6: TextStyle(
+          color: Color(0XFF8B8B8B),
+          fontSize: 20,
         ),
       ),
     );
   }
 
-  ///
-  /// METODOS - VALIDACIONES
-  ///
+  InputDecorationTheme inputDecorationTheme() {
+    return InputDecorationTheme(
+      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(28),
+        borderSide: BorderSide(color: Color(0XFF8B8B8B)),
+        gapPadding: 10,
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(28),
+        borderSide: BorderSide(color: Color(0XFF8B8B8B)),
+        gapPadding: 10,
+      ),
+    );
+  }
+}
 
-  // CAMPO DE CORREO
-  TextFormField buildCorreo(BuildContext context) {
-    return TextFormField(
-      textAlign: TextAlign.center,
-      obscureText: false,
-      onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
-      style: estilo,
-      validator: (String val) {
-        if (!val.contains("@")) {
-          return "Ingrese un correo valido";
-        }
-        if (val.isEmpty || val == null) {
-          return 'Ingrese un correo valido';
-        }
-        return null;
-      },
-      controller: _emailController,
-      keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        labelText: "Email",
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(
-            32.0,
+class VentanaLogin extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Unfocuser(
+      child: Scaffold(
+        // resizeToAvoidBottomPadding: false,
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text("Inicio de Sesión"),
+        ),
+        body: CuerpoLogin(),
+      ),
+    );
+  }
+}
+
+class CuerpoLogin extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: SizedBox(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: Column(
+              children: [
+                SizedBox(height: 10),
+                Text(
+                  "¡Bienvenido de vuelta!",
+                  style: TextStyle(
+                    color: Color.fromRGBO(255, 96, 39, 1),
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  "Inicia sesión con tu correo y contraseña \npara ingresar.",
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 70),
+                FormularioDatos(),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+}
 
-  // CAMPO DE CONTRASEÑA
-  TextFormField buildPassword(BuildContext context) {
-    return TextFormField(
-      textAlign: TextAlign.center,
-      onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
-      validator: (String val) {
-        if (val.isEmpty || val == null) {
-          return "Ingrese una contraseña valida";
-        }
-        return null;
-      },
-      controller: _passController,
-      keyboardType: TextInputType.visiblePassword,
-      obscureText: true,
-      style: estilo,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        labelText: "Contraseña",
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(32.0),
-        ),
-        isDense: true,
+class FormularioDatos extends StatefulWidget {
+  @override
+  _FormularioDatosState createState() => _FormularioDatosState();
+}
+
+class _FormularioDatosState extends State<FormularioDatos> {
+  FocusNode _correoFocus = FocusNode();
+  FocusNode _claveFocus = FocusNode();
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      child: Column(
+        children: [
+          buildTextFormFieldCorreo(),
+          SizedBox(height: 30.0),
+          buildTextFormFieldClave(),
+          SizedBox(height: 5.0),
+          Row(
+            children: [
+              Spacer(),
+              FlatButton(
+                onPressed: () {},
+                child: Text(
+                  "¿Olvidaste tu contraseña?",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              )
+            ],
+          ),
+          SizedBox(height: 40.0),
+          Boton(
+            textoBoton: "Iniciar Sesión",
+            presionar: () {},
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "¿Aún no tienes cuenta? ",
+                style: TextStyle(
+                  fontSize: 15,
+                ),
+              ),
+              FlatButton(
+                onPressed: ventanaRegistrarse,
+                child: Text(
+                  "Regístrate",
+                  style: TextStyle(
+                    color: Color.fromRGBO(255, 96, 39, 1),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
 
-  // VALIDACION DE FORMATO CORREO
-  bool validarCorreo(String value) {
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = RegExp(pattern);
-    return (!regex.hasMatch(value)) ? false : true;
-  }
-
-  // METODOS PUSH - POP
-  void _pushPage(BuildContext context, Widget page) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => page),
+  TextFormField buildTextFormFieldCorreo() {
+    return TextFormField(
+      autocorrect: true,
+      obscureText: false,
+      maxLines: 1,
+      minLines: 1,
+      keyboardType: TextInputType.emailAddress,
+      textInputAction: TextInputAction.next,
+      focusNode: _correoFocus,
+      onFieldSubmitted: (value) =>
+          FocusScope.of(context).requestFocus(_claveFocus),
+      decoration: InputDecoration(
+        hintText: "Ingrese su correo",
+        labelText: "Correo",
+        prefixIcon: Icon(Icons.email),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
     );
   }
 
-  void _popPage(BuildContext context) {
-    Navigator.of(context).pop();
+  TextFormField buildTextFormFieldClave() {
+    return TextFormField(
+      autocorrect: true,
+      obscureText: true,
+      maxLines: 1,
+      minLines: 1,
+      keyboardType: TextInputType.visiblePassword,
+      textInputAction: TextInputAction.done,
+      focusNode: _claveFocus,
+      decoration: InputDecoration(
+        hintText: "Ingrese su contraseña",
+        labelText: "Contraseña",
+        prefixIcon: Icon(Icons.lock),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
   }
 
-  // METODO PARA CONFIRMAR SALIDA DE LA APLICACIÓN
-  Future<bool> salirApp() {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return cuerpoAlerta(context);
-      },
+  Future<void> ventanaRegistrarse() {
+    return Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => RegisterScreen(null)));
+  }
+}
+
+class Boton extends StatelessWidget {
+  const Boton({
+    Key key,
+    this.textoBoton,
+    this.presionar,
+  }) : super(key: key);
+
+  final String textoBoton;
+  final Function presionar;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 300,
+      height: 55,
+      child: FlatButton(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        color: Color.fromRGBO(255, 96, 39, 1),
+        onPressed: presionar,
+        child: Text(
+          textoBoton,
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 }

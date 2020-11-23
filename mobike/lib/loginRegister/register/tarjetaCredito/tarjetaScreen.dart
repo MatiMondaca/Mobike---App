@@ -11,7 +11,7 @@ import 'package:mobike/const.dart';
 import 'package:mobike/loginRegister/register/tarjetaCredito/validarTarjeta.dart';
 
 class TarjetaCredito extends StatefulWidget {
-  TarjetaCredito({Key key, this.numTarjeta}) : super(key: key);
+  TarjetaCredito({this.numTarjeta});
   final String numTarjeta;
 
   @override

@@ -1,12 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:mobike/main.dart';
 
 class AutenticacionServicio {
   static FirebaseAuth _auth = FirebaseAuth.instance;
+  static DatabaseReference usuarioRef =
+      FirebaseDatabase.instance.reference().child("usuarios");
 
   static entrarConEmail({String email, String password}) async {
     try {
@@ -46,18 +48,33 @@ class AutenticacionServicio {
     }
   }
 
-  static void registrarUsuario(String email, String password, String nombre,
-      String apellido, String rut) async {
+  static void registrarUsuario(
+      String rut,
+      String nombre,
+      String apellido,
+      String comuna,
+      int numTarjeta,
+      String direccion,
+      int numCasa,
+      String correo,
+      String clave,
+      int telefono) async {
     final User firebaseUser = (await _auth.createUserWithEmailAndPassword(
-            email: email, password: password))
+            email: correo, password: clave))
         .user;
 
     if (firebaseUser != null) {
       try {
         Map datosUsuario = {
-          "nombre": nombre,
-          "Apellido": apellido,
           "rut": rut,
+          "nombre": nombre,
+          "apellido": apellido,
+          "comuna": comuna,
+          "numero_tarjeta": numTarjeta,
+          "direccion": direccion,
+          "numero_casa": numCasa,
+          "correo": correo,
+          "telefono": telefono,
         };
         usuarioRef.child(firebaseUser.uid).set(datosUsuario);
       } on FirebaseException catch (e) {

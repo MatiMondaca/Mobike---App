@@ -1,6 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobike/loginRegister/login/autenticacion/auth.dart';
 
 class RecuperarClave extends StatefulWidget {
@@ -52,7 +50,6 @@ class _RecuperarClaveState extends State<RecuperarClave> {
                       if (_formReset.currentState.validate()) {
                         AutenticacionServicio.resetPassword(
                             email: resetEmail.text.trim());
-                        
                       }
                     },
                   )

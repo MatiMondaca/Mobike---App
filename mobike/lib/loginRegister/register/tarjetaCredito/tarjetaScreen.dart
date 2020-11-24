@@ -10,6 +10,7 @@ import 'package:mobike/const.dart';
 
 import 'package:mobike/loginRegister/register/tarjetaCredito/validarTarjeta.dart';
 
+
 class TarjetaCredito extends StatefulWidget {
   TarjetaCredito({this.numTarjeta});
   final String numTarjeta;
@@ -187,10 +188,9 @@ class _TarjetaCreditoState extends State<TarjetaCredito> {
   // CAMPO CODIGO DE VERIFICACIÓN
   Container buildCVV() {
     return Container(
-      width: 150,
+      width: 185,
       child: Padding(
         padding: const EdgeInsets.only(
-          left: 5.0,
           right: 20.0,
         ),
         child: TextFormField(
@@ -227,11 +227,11 @@ class _TarjetaCreditoState extends State<TarjetaCredito> {
   // CAMPO FECHA DE EXPIRACIÓN
   Container buildFechaExpiracion() {
     return Container(
-      width: 200,
+      width: 220,
       child: Padding(
         padding: const EdgeInsets.only(
           left: 20.0,
-          right: 20.0,
+          right: 15.0,
         ),
         child: TextFormField(
           inputFormatters: [CreditCardExpirationDateFormatter()],

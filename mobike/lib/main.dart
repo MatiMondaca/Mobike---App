@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:mobike/home/homeScreen.dart';
 import 'package:mobike/loginRegister/login/loginScreen.dart';
+import 'package:mobike/loginRegister/register/crearClave/crearClave.dart';
+import 'package:mobike/loginRegister/register/registerScreen.dart';
+
+import 'const.dart';
+import 'utils/theme.dart';
 
 Future<void> main() async {
   //ERROR AQUI - MAIN
@@ -22,11 +27,13 @@ class Mobike extends StatelessWidget {
     // SystemChrome.setEnabledSystemUIOverlays([]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(visualDensity: VisualDensity.adaptivePlatformDensity),
+      theme: theme(),
       home: Autenticacion(),
     );
   }
 }
+
+
 
 class Autenticacion extends StatelessWidget {
   @override

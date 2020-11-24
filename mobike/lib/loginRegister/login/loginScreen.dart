@@ -8,7 +8,6 @@ import 'package:mobike/home/homeScreen.dart';
 
 import 'package:mobike/const.dart';
 import 'package:mobike/loginRegister/login/cargarSiguiente.dart';
-import 'package:mobike/loginRegister/login/recuperarContrase%C3%B1a/recuperarClave.dart';
 import 'package:mobike/loginRegister/register/registerScreen.dart';
 
 import 'autenticacion/auth.dart';
@@ -22,37 +21,8 @@ class SingInPage extends StatefulWidget {
 class _SingInPageState extends State<SingInPage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: VentanaLogin(),
-      theme: theme(),
-    );
-  }
-
-  ThemeData theme() {
-    return ThemeData(
-      inputDecorationTheme: inputDecorationTheme(),
-      scaffoldBackgroundColor: Colors.white,
-      fontFamily: "Muli",
-      brightness: Brightness.light,
-      visualDensity: VisualDensity.adaptivePlatformDensity,
-    );
-  }
-
-  InputDecorationTheme inputDecorationTheme() {
-    return InputDecorationTheme(
-      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-      floatingLabelBehavior: FloatingLabelBehavior.always,
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(28),
-        borderSide: BorderSide(color: Color(0XFF8B8B8B)),
-        gapPadding: 10,
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(28),
-        borderSide: BorderSide(color: Color(0XFF8B8B8B)),
-        gapPadding: 10,
-      ),
+    return Scaffold(
+      body: VentanaLogin(),
     );
   }
 }
@@ -71,6 +41,7 @@ class _VentanaLoginState extends State<VentanaLogin> {
   TextEditingController _claveController = TextEditingController();
 
   GlobalKey<FormState> _formKeyLogin = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final responsivo = Responsivo.of(context);
@@ -99,18 +70,18 @@ class _VentanaLoginState extends State<VentanaLogin> {
                           "Inicia sesión con tu correo y contraseña",
                           textAlign: TextAlign.center,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Para ingresar a "),
-                            Text(
-                              "MoBike.",
-                              style: TextStyle(
-                                color: Color.fromRGBO(108, 99, 255, 1),
-                                fontWeight: FontWeight.bold,
+                        Text.rich(
+                          TextSpan(
+                            text: 'para ingresar a ',
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: 'Mobike.',
+                                style: TextStyle(
+                                    color: Color.fromRGBO(108, 99, 255, 1),
+                                    fontWeight: FontWeight.bold),
                               ),
-                            )
-                          ],
+                            ],
+                          ),
                         ),
                         SizedBox(height: responsivo.diagonalPantalla(7)),
                         Form(
@@ -129,7 +100,8 @@ class _VentanaLoginState extends State<VentanaLogin> {
                                     child: Text(
                                       "¿Olvidaste tu contraseña?",
                                       style: TextStyle(
-                                        fontWeight: FontWeight.bold,
+                                        fontSize:
+                                            responsivo.diagonalPantalla(1.7),
                                       ),
                                     ),
                                   )
@@ -239,39 +211,6 @@ bool validarCorreo(String value) {
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
   RegExp regex = RegExp(pattern);
   return (!regex.hasMatch(value)) ? false : true;
-}
-
-class Boton extends StatelessWidget {
-  const Boton({
-    Key key,
-    this.textoBoton,
-    this.presionar,
-    this.color,
-  }) : super(key: key);
-
-  final String textoBoton;
-  final Function presionar;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 300,
-      height: 55,
-      child: FlatButton(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        color: color,
-        onPressed: presionar,
-        child: Text(
-          textoBoton,
-          style: TextStyle(
-            fontSize: 20,
-            color: Colors.white,
-          ),
-        ),
-      ),
-    );
-  }
 }
 
 class ParteInferior extends StatelessWidget {

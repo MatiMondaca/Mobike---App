@@ -51,3 +51,39 @@ AlertDialog cuerpoAlerta(BuildContext context) {
     ],
   );
 }
+
+class Boton extends StatelessWidget {
+  const Boton({
+    Key key,
+    this.textoBoton,
+    this.presionar,
+    this.color,
+  }) : super(key: key);
+
+  final String textoBoton;
+  final Function presionar;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 300,
+      height: 55,
+      child: FlatButton(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        color: color,
+        onPressed: presionar,
+        child: Text(
+          textoBoton,
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+const kColorTexto = Color(0xFF757575);
+const kColorTextoSecundario = Color(0xFF979797);

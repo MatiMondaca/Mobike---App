@@ -33,7 +33,7 @@ class Mobike extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: theme(),
-      home: Autenticacion(),
+      home: SingInPage(),
     );
   }
 }

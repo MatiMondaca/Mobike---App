@@ -1,5 +1,5 @@
 class ModeloTarjetaCredito {
-  int numeroTarjeta;
+  String numeroTarjeta;
 
-  ModeloTarjetaCredito(this.numeroTarjeta);
+  ModeloTarjetaCredito({this.numeroTarjeta});
 }

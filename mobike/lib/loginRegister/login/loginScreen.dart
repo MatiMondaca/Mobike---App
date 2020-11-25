@@ -237,7 +237,7 @@ class ParteInferior extends StatelessWidget {
             FlatButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => RegisterScreen(null)));
+                    builder: (context) => RegisterScreen()));
               },
               child: Text(
                 "Regístrate",

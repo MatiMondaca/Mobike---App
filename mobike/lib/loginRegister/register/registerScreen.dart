@@ -3,22 +3,21 @@ import 'package:flutter_multi_formatter/utils/unfocuser.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobike/loginRegister/register/tarjetaCredito/tarjetaScreen.dart';
 import 'package:mobike/const.dart';
+import '../../localizador.dart';
 import '../../utils/responsivo.dart';
 import 'package:mobike/localizador.dart';
 import 'package:mobike/Controllers/controladorFirebase.dart';
+import 'package:mobike/Controllers/controladorTarjetaCredito.dart';
 
 ControladorFirebase _authCon = locator.get<ControladorFirebase>();
+ControladorTarjeta _controladorTarjeta = locator.get<ControladorTarjeta>();
 
 // ignore: must_be_immutable
 class RegisterScreen extends StatefulWidget {
-  String numero;
   static final RegisterScreen _instanciaReg = RegisterScreen._internal();
   RegisterScreen._internal();
 
-  factory RegisterScreen(String numero) {
-    _instanciaReg.numero = numero ?? '';
-    return _instanciaReg;
-  }
+  RegisterScreen();
 
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
@@ -213,7 +212,7 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              pagRegistro.numero == ''
+              _controladorTarjeta.getNumero == ''
                   ? Text(
                       "Tarjeta de Crédito",
                       style: TextStyle(
@@ -222,19 +221,20 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
                       ),
                     )
                   : Text(
-                      pagRegistro.numero,
+                      _controladorTarjeta.getNumero,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: responsivo.diagonalPantalla(2.5),
                       ),
                     ),
               FlatButton(
-                onPressed: () {
-                  Navigator.of(context).push(
+                onPressed: () async {
+                  await Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => TarjetaCredito(),
                     ),
                   );
+                  
                 },
                 child: Text(
                   "+ Agregar tarjeta",
@@ -317,7 +317,7 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
             presionar: () {
               try {
                 _authCon.registrarUsuario(
-                   _rutController.text.trim(),
+                  _rutController.text.trim(),
                   _nombreController.text.trim(),
                   _apellidoController.text.trim(),
                   _apellidoController.text.trim(),
@@ -326,7 +326,6 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
                   _correoController.text.trim(),
                   'hola123',
                   int.parse(_celularController.text),
-
                 );
               } catch (e) {
                 print(e);

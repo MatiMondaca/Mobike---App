@@ -21,7 +21,7 @@ Widget appbar = Text(
   textAlign: TextAlign.center,
 );
 
-var pagRegistro = RegisterScreen(null);
+
 
 // Cuerpo de la alerta al momento de presionar el boton back
 AlertDialog cuerpoAlerta(BuildContext context) {

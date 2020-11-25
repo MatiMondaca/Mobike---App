@@ -1,18 +1,20 @@
 import 'package:mobike/Models/tarjetaCreditoModel.dart';
-import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:mobike/Models/modeloUsuario.dart';
-import 'dart:io';
-
-import 'package:mobike/localizador.dart';
-
-import 'package:mobike/Controllers/controladorFirebase.dart';
-import 'package:mobike/Controllers/controladorAlmacenamiento.dart';
+import '../Models/tarjetaCreditoModel.dart';
 
 class ControladorTarjeta {
-  int numero;
-  ModeloTarjetaCredito _tarjetaCredito;
+  var init;
+  ModeloTarjetaCredito _tarjetaCredito = ModeloTarjetaCredito();
 
-  num get getNumero => numero;
+  ControladorTarjeta() {
+    init = initTarjeta();
+  }
 
-  set setNumero(num numero) => this.numero = numero;
+  ModeloTarjetaCredito initTarjeta() {
+    _tarjetaCredito.numeroTarjeta = '';
+    return _tarjetaCredito;
+  }
+
+  String get getNumero => _tarjetaCredito.numeroTarjeta;
+
+  set setNumero(String numero) => _tarjetaCredito.numeroTarjeta = numero;
 }

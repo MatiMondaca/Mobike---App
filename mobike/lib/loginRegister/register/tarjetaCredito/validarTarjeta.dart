@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mobike/Controllers/controladorTarjetaCredito.dart';
+import 'package:mobike/Models/tarjetaCreditoModel.dart';
 import 'package:mobike/localizador.dart';
 
 import '../../../const.dart';
+import '../registerScreen.dart';
 
 class ValidarTarjeta extends StatefulWidget {
   const ValidarTarjeta({
@@ -34,11 +36,9 @@ class _ValidarTarjetaState extends State<ValidarTarjeta> {
 
         print('Numero: ' + widget._numerotarjeta.text);
         setState(() {
-          pagRegistro.numero = widget._numerotarjeta.text;
+          _controladorTarjeta.setNumero = widget._numerotarjeta.text;
         });
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => pagRegistro),
-        );
+        Navigator.of(context).pop();
       },
       color: Color.fromRGBO(108, 99, 255, 1),
       textColor: Colors.white,

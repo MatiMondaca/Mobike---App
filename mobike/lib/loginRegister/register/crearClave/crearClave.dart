@@ -1,220 +1,213 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_multi_formatter/utils/unfocuser.dart';
 import 'package:mobike/loginRegister/register/crearClave/validadorClave.dart';
+import 'package:mobike/utils/responsivo.dart';
 
-import '../../../const.dart';
-
-bool _verContrasenna = false;
-
-@override
-void initState() {
-  _verContrasenna = false;
-}
-
-class CrearClave extends StatefulWidget {
-  @override
-  _CrearClaveState createState() => _CrearClaveState();
-}
-
-class _CrearClaveState extends State<CrearClave> {
-  TextEditingController _contrasennaController = TextEditingController();
-  TextEditingController _contrasennaRepeatController = TextEditingController();
-  EditTxTValid validadorClave = EditTxTValid();
-
-  GlobalKey<FormState> _validarCampoClave = GlobalKey<FormState>();
-
-  final FocusNode _segundaClave = FocusNode();
+class CrearClave extends StatelessWidget {
+  const CrearClave({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Unfocuser(
-      child: WillPopScope(
-        onWillPop: salirApp,
-        child: Scaffold(
-          body: SafeArea(
-            child: Column(
-              children: [
-                buildTitulo(),
-                buildSubTitulo(),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Form(
-                      key: _validarCampoClave,
-                      child: Column(
-                        children: [
-                          ///
-                          /// Titulo - Subtitulo
-                          ///
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          title: Text("Creación de Contraseña"),
+        ),
+        body: CuerpoCrearClave(),
+      ),
+    );
+  }
+}
 
-                          ///
-                          /// Primera Clave
-                          ///
-                          buildClave(context),
+class CuerpoCrearClave extends StatefulWidget {
+  CuerpoCrearClave({Key key}) : super(key: key);
 
-                          ///
-                          /// Segunda Clave
-                          ///
-                          buildClaveRepeat(),
+  @override
+  _CuerpoCrearClaveState createState() => _CuerpoCrearClaveState();
+}
 
-                          ///
-                          /// Validadores
-                          ///
-                          validadorClave,
-
-                          ///
-                          /// Boton para crear la cuenta
-                          ///
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: RaisedButton(
-                              textColor: Colors.white,
-                              color: Colors.green,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 30,
-                                  vertical: 15,
-                                ),
-                                child: Text(
-                                  "Crear mi cuenta",
-                                  style: TextStyle(
-                                      fontFamily: 'Century-Gothic',
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              onPressed: () {
-                                if (validadorClave.cbxMinCaracter &&
-                                    validadorClave.cbxMayus &&
-                                    validadorClave.cbxNumero &&
-                                    _contrasennaController.text ==
-                                        _contrasennaRepeatController.text) {
-                                  return print("Contraseña correcta");
-                                } else {
-                                  return print("Error");
-                                }
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
+class _CuerpoCrearClaveState extends State<CuerpoCrearClave> {
+  @override
+  Widget build(BuildContext context) {
+    final responsivo = Responsivo.of(context);
+    return SizedBox(
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25),
+        child: Column(
+          children: [
+            Text(
+              "¡Sólo un paso más!",
+              style: TextStyle(
+                color: Color.fromRGBO(108, 99, 255, 1),
+                fontSize: responsivo.diagonalPantalla(3.4),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text.rich(
+              TextSpan(
+                children: <TextSpan>[
+                  TextSpan(
+                    text: 'Para crear tu contraseña ',
+                    style: TextStyle(
+                      fontSize: responsivo.diagonalPantalla(1.7),
                     ),
                   ),
+                  TextSpan(
+                    text: 'asegurate de cumplir\n con los requisitos de esta. ',
+                    style: TextStyle(
+                      fontSize: responsivo.diagonalPantalla(1.7),
+                    ),
+                  ),
+                  TextSpan(
+                    text: '¡No olvides! Estás a un paso de ser parte de ',
+                    style: TextStyle(
+                      fontSize: responsivo.diagonalPantalla(1.7),
+                    ),
+                  ),
+                  TextSpan(
+                    text: 'Mobike.',
+                    style: TextStyle(
+                      color: Color.fromRGBO(108, 99, 255, 1),
+                      fontWeight: FontWeight.bold,
+                      fontSize: responsivo.diagonalPantalla(1.7),
+                    ),
+                  ),
+                ],
+              ),
+              textAlign: TextAlign.center,
+            ),
+            Divider(),
+            FormularioCrearClave(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+bool _verContrasenna1 = false;
+bool _verContrasenna2 = false;
+
+@override
+void initState() {
+  _verContrasenna1 = false;
+  _verContrasenna2 = false;
+}
+
+class FormularioCrearClave extends StatefulWidget {
+  FormularioCrearClave({Key key}) : super(key: key);
+
+  @override
+  _FormularioCrearClaveState createState() => _FormularioCrearClaveState();
+}
+
+class _FormularioCrearClaveState extends State<FormularioCrearClave> {
+  TextEditingController _contrasennaController = TextEditingController();
+  TextEditingController _contrasennaRepeatController = TextEditingController();
+  GlobalKey<FormState> _validarCampoClave = GlobalKey<FormState>();
+
+  final FocusNode _segundaClave = FocusNode();
+  final FocusNode _primeraClave = FocusNode();
+
+  EditTxTValid validadorClave = EditTxTValid();
+
+  @override
+  Widget build(BuildContext context) {
+    final responsivo = Responsivo.of(context);
+
+    IconButton verClave1 = IconButton(
+      icon: _verContrasenna1
+          ? Icon(Icons.visibility)
+          : Icon(Icons.visibility_off),
+      onPressed: () {
+        setState(() {
+          _verContrasenna1 = !_verContrasenna1;
+        });
+      },
+    );
+
+    IconButton verClave2 = IconButton(
+      icon: _verContrasenna2
+          ? Icon(Icons.visibility)
+          : Icon(Icons.visibility_off),
+      onPressed: () {
+        setState(() {
+          _verContrasenna2 = !_verContrasenna2;
+        });
+      },
+    );
+
+    return Form(
+      key: _validarCampoClave,
+      child: Column(
+        children: [
+          TextFormField(
+            controller: _contrasennaController,
+            focusNode: _primeraClave,
+            textInputAction: TextInputAction.next,
+            obscureText: !_verContrasenna1,
+            decoration: InputDecoration(
+              hintText: 'Cree su Contraseña',
+              labelText: 'Crear Contraseña',
+              prefixIcon: Icon(Icons.lock_outline),
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              suffixIcon: verClave1,
+            ),
+            onChanged: (txt) {
+              validadorClave.validation(_contrasennaController.text,
+                  _contrasennaRepeatController.text);
+            },
+            onFieldSubmitted: (value) {
+              FocusScope.of(context).requestFocus(_segundaClave);
+            },
+          ),
+          SizedBox(height: responsivo.diagonalPantalla(3)),
+          TextFormField(
+            controller: _contrasennaRepeatController,
+            focusNode: _segundaClave,
+            obscureText: !_verContrasenna2,
+            decoration: InputDecoration(
+              hintText: 'Reingrese su Contraseña',
+              labelText: 'Reingresar Contraseña',
+              prefixIcon: Icon(Icons.lock_outline),
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              suffixIcon: verClave2,
+            ),
+            onChanged: (txt) {
+              validadorClave.validation(_contrasennaController.text,
+                  _contrasennaRepeatController.text);
+            },
+          ),
+          Divider(),
+          validadorClave,
+          Divider(),
+          SizedBox(
+            width: 300,
+            height: 55,
+            child: FlatButton(
+              child: Text(
+                "Crear mi cuenta",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
                 ),
-              ],
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              color: Color.fromRGBO(108, 99, 255, 1),
+              onPressed: () {
+                //TODO: El boton no funciona, pasar los parametros del registro para habilitar
+              },
             ),
           ),
-        ),
+          SizedBox(height: responsivo.diagonalPantalla(2.5)),
+        ],
       ),
-    );
-  }
-
-  Padding buildTitulo() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 40),
-      child: Text(
-        "Crea tu contraseña",
-        style: TextStyle(
-          fontFamily: 'Century-Gothic',
-          fontSize: 30.0,
-        ),
-      ),
-    );
-  }
-
-  Padding buildSubTitulo() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      child: Text(
-        "¡Estas un paso mas cerca de hacer el cambio!",
-        style: TextStyle(fontStyle: FontStyle.italic),
-      ),
-    );
-  }
-
-  Padding buildClave(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 25.0, left: 25.0, top: 40.0),
-      child: TextFormField(
-        keyboardType: TextInputType.visiblePassword,
-        obscureText: !_verContrasenna,
-        controller: _contrasennaController,
-        textInputAction: TextInputAction.next,
-        textAlign: TextAlign.left,
-        maxLines: 1,
-        minLines: 1,
-        style: TextStyle(fontSize: 20),
-        decoration: InputDecoration(
-          labelText: '  Cree una contraseña',
-          labelStyle: TextStyle(fontSize: 18, fontFamily: 'Century-Gothic'),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
-          suffixIcon: IconButton(
-            icon: _verContrasenna
-                ? Icon(Icons.visibility)
-                : Icon(Icons.visibility_off),
-            onPressed: () {
-              setState(() {
-                _verContrasenna = !_verContrasenna;
-              });
-            },
-          ),
-        ),
-        onChanged: (txt) {
-          validadorClave.validation(_contrasennaController.text);
-        },
-        onFieldSubmitted: (value) {
-          FocusScope.of(context).requestFocus(_segundaClave);
-        },
-      ),
-    );
-  }
-
-  Padding buildClaveRepeat() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 25.0, right: 25.0, top: 20.0),
-      child: TextFormField(
-        keyboardType: TextInputType.visiblePassword,
-        obscureText: true,
-        controller: _contrasennaRepeatController,
-        textInputAction: TextInputAction.done,
-        textAlign: TextAlign.left,
-        maxLines: 1,
-        minLines: 1,
-        focusNode: _segundaClave,
-        style: TextStyle(fontSize: 20),
-        decoration: InputDecoration(
-          labelText: '  Repita la contraseña',
-          labelStyle: TextStyle(fontSize: 18, fontFamily: 'Century-Gothic'),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
-          suffixIcon: IconButton(
-            icon: _verContrasenna
-                ? Icon(Icons.visibility)
-                : Icon(Icons.visibility_off),
-            onPressed: () {
-              setState(() {
-                _verContrasenna = !_verContrasenna;
-              });
-            },
-          ),
-        ),
-      ),
-    );
-  }
-
-  // METODO PARA CONFIRMAR SALIDA DE LA APLICACIÓN
-  Future<bool> salirApp() {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return cuerpoAlerta(context);
-      },
     );
   }
 }

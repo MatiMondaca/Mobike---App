@@ -4,24 +4,28 @@ import '../const.dart';
 
 ThemeData theme() {
   return ThemeData(
-    dividerTheme: DividerThemeData(
-      space: 60,
-      thickness: 0.3,
-      color: Colors.grey,
-      indent: 100,
-      endIndent: 100,
-    ),
     scaffoldBackgroundColor: Colors.white,
     fontFamily: 'Muli',
+    dividerTheme: dividerThemeData(),
     appBarTheme: appBarTheme(),
     textTheme: textTheme(),
     inputDecorationTheme: inputDecorationTheme(),
   );
 }
 
+DividerThemeData dividerThemeData() {
+  return DividerThemeData(
+    space: 65,
+    thickness: 0.5,
+    color: Colors.grey[400],
+    indent: 100,
+    endIndent: 100,
+  );
+}
+
 InputDecorationTheme inputDecorationTheme() {
   return InputDecorationTheme(
-    contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+    contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 18),
     floatingLabelBehavior: FloatingLabelBehavior.always,
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(28),
@@ -30,9 +34,10 @@ InputDecorationTheme inputDecorationTheme() {
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(28),
-      borderSide: BorderSide(color: Color(0XFF8B8B8B)),
+      borderSide: BorderSide(color: Color.fromRGBO(108, 99, 255, 1),),
       gapPadding: 10,
     ),
+    
   );
 }
 

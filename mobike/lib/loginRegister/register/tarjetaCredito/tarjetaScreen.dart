@@ -6,10 +6,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:flutter_multi_formatter/formatters/credit_card_number_input_formatter.dart';
 import 'package:flutter_multi_formatter/utils/unfocuser.dart';
+import 'package:mobike/Controllers/controladorTarjetaCredito.dart';
 import 'package:mobike/const.dart';
+import 'package:mobike/localizador.dart';
 
 import 'package:mobike/loginRegister/register/tarjetaCredito/validarTarjeta.dart';
-
 
 class TarjetaCredito extends StatefulWidget {
   TarjetaCredito({this.numTarjeta});
@@ -20,6 +21,8 @@ class TarjetaCredito extends StatefulWidget {
 }
 
 class _TarjetaCreditoState extends State<TarjetaCredito> {
+  ControladorTarjeta _controladorTarjeta = locator.get<ControladorTarjeta>();
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController _numerotarjeta = TextEditingController();
@@ -54,7 +57,16 @@ class _TarjetaCreditoState extends State<TarjetaCredito> {
     return WillPopScope(
       onWillPop: salirApp,
       child: Scaffold(
-        resizeToAvoidBottomPadding: true,
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text("Tarjeta de Crédito"),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              _popPage(context);
+            },
+          ),
+        ),
         body: SafeArea(
           child: Column(
             children: [
@@ -103,6 +115,7 @@ class _TarjetaCreditoState extends State<TarjetaCredito> {
                           ///
                           /// Boton Agregar tarjeta
                           ///
+
                           Padding(
                             padding: const EdgeInsets.only(
                               top: 5.0,
@@ -188,7 +201,7 @@ class _TarjetaCreditoState extends State<TarjetaCredito> {
   // CAMPO CODIGO DE VERIFICACIÓN
   Container buildCVV() {
     return Container(
-      width: 185,
+      width: 195,
       child: Padding(
         padding: const EdgeInsets.only(
           right: 20.0,
@@ -227,7 +240,7 @@ class _TarjetaCreditoState extends State<TarjetaCredito> {
   // CAMPO FECHA DE EXPIRACIÓN
   Container buildFechaExpiracion() {
     return Container(
-      width: 220,
+      width: 210,
       child: Padding(
         padding: const EdgeInsets.only(
           left: 20.0,
@@ -322,6 +335,7 @@ class _TarjetaCreditoState extends State<TarjetaCredito> {
       child: CreditCard(
         showShadow: true,
         height: 195,
+        frontTextColor: Colors.white,
         frontBackground: CardBackgrounds.black,
         backBackground: CardBackgrounds.white,
         cardNumber: numeroTarjeta,

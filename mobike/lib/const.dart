@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:mobike/loginRegister/login/autenticacion/auth.dart';
 import 'package:mobike/loginRegister/register/registerScreen.dart';
+
+import 'Controllers/controladorFirebase.dart';
+import 'localizador.dart';
 
 const iconBicicleta = 'assets/svg/pinBici.svg';
 const iconBicicletaLogin = 'assets/svg/bicicleta.svg';
-
+ControladorFirebase _authCon = locator.get<ControladorFirebase>();
 ///
 /// Titulo AppBar Home
 ///
@@ -44,7 +46,7 @@ AlertDialog cuerpoAlerta(BuildContext context) {
           style: TextStyle(fontSize: 15),
         ),
         onPressed: () {
-          AutenticacionServicio.cerrarSesion();
+          _authCon.cerrarSesion();
           exit(0);
         },
       ),
@@ -81,6 +83,67 @@ class Boton extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class CampoTextoFormulario extends StatelessWidget {
+  const CampoTextoFormulario({
+    this.controller,
+    this.estilo,
+    this.tipoTeclado,
+    this.largoMaximo,
+    this.hint,
+    this.label,
+    this.helper,
+    this.icono,
+    this.onChanged,
+    this.textoPrefijo,
+    this.focus,
+    this.campoListo,
+    this.iconoSufijo,
+  });
+
+  final TextStyle estilo;
+  final TextInputType tipoTeclado;
+  final int largoMaximo;
+  final String hint;
+  final String label;
+  final String helper;
+  final Icon icono;
+  final TextEditingController controller;
+  final Function onChanged;
+  final String textoPrefijo;
+  final FocusNode focus;
+  final Function campoListo;
+  final Icon iconoSufijo;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      onFieldSubmitted: campoListo,
+      controller: controller,
+      onChanged: onChanged,
+      autocorrect: true,
+      maxLines: 1,
+      minLines: 1,
+      focusNode: focus,
+      maxLength: largoMaximo,
+      keyboardType: tipoTeclado,
+      decoration: buildInputDecoration(),
+    );
+  }
+
+  InputDecoration buildInputDecoration() {
+    return InputDecoration(
+      prefixText: textoPrefijo,
+      suffixIcon: iconoSufijo,
+      hintText: hint,
+      labelText: label,
+      helperText: helper,
+      helperStyle: estilo,
+      prefixIcon: icono,
+      floatingLabelBehavior: FloatingLabelBehavior.always,
     );
   }
 }

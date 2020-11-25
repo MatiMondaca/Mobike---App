@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_multi_formatter/utils/unfocuser.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mobike/Controllers/controladorFirebase.dart';
 import 'package:mobike/home/homeScreen.dart';
 
 import 'package:mobike/const.dart';
 import 'package:mobike/loginRegister/login/cargarSiguiente.dart';
 import 'package:mobike/loginRegister/register/registerScreen.dart';
 
-import 'autenticacion/auth.dart';
+import 'package:mobike/localizador.dart';
 import '../../utils/responsivo.dart';
+
+ControladorFirebase _authCon = locator.get<ControladorFirebase>();
 
 class SingInPage extends StatefulWidget {
   @override
@@ -22,6 +25,7 @@ class _SingInPageState extends State<SingInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: VentanaLogin(),
     );
   }
@@ -115,8 +119,8 @@ class _VentanaLoginState extends State<VentanaLogin> {
                                     if (validarCorreo(_emailController.text)) {
                                       setState(() => cargar = true);
                                       try {
-                                        final user = await AutenticacionServicio
-                                            .entrarConEmail(
+                                        final user =
+                                            await _authCon.entrarConEmail(
                                           email: _emailController.text,
                                           password: _claveController.text,
                                         );
@@ -137,15 +141,15 @@ class _VentanaLoginState extends State<VentanaLogin> {
                                         print(e.code);
                                       }
                                     } else {
-                                      return Fluttertoast.showToast(
-                                        msg: "Correo y/o contraseña invalidos",
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.BOTTOM,
-                                        timeInSecForIosWeb: 1,
-                                        backgroundColor: Colors.red,
-                                        textColor: Colors.white,
-                                        fontSize: 16.0,
-                                      );
+                                      // return Fluttertoast.showToast(
+                                      //   msg: "Correo y/o contraseña invalidos",
+                                      //   toastLength: Toast.LENGTH_SHORT,
+                                      //   gravity: ToastGravity.BOTTOM,
+                                      //   timeInSecForIosWeb: 1,
+                                      //   backgroundColor: Colors.red,
+                                      //   textColor: Colors.white,
+                                      //   fontSize: 16.0,
+                                      // );
                                     }
                                   }
                                 },

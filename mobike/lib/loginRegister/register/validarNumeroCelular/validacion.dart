@@ -1,87 +1,89 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobike/loginRegister/register/crearClave/crearClave.dart';
 
 class NumeroTelefono extends StatefulWidget {
+  NumeroTelefono({Key key}) : super(key: key);
+
   @override
   _NumeroTelefonoState createState() => _NumeroTelefonoState();
 }
 
 class _NumeroTelefonoState extends State<NumeroTelefono> {
-  String numTelefono, idVerificacion, smsCode, numero;
+  TextEditingController _numeroCelular = TextEditingController();
+  TextEditingController _optToken = TextEditingController();
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
-  bool codeSent = false;
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
-          children: [
-            Text(numero),
-            TextFormField(
-              onChanged: (value) {
-                print(numero);
-                this.numero = value;
-              },
-            ),
-            codeSent
-                ? TextFormField(
-                    onChanged: (value) {
-                      this.smsCode = value;
+  autententicacionCelular() async {
+    await _auth.verifyPhoneNumber(
+      phoneNumber: _numeroCelular.text,
+      timeout: Duration(seconds: 60),
+      verificationCompleted: (PhoneAuthCredential credencial) {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => CrearClave()),
+        );
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        print(e.code);
+        print("Error: ${e.message}");
+      },
+      codeSent: (String verificacionID, int reenviarToken) {
+        print(verificacionID);
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text("Ingresa el codigo"),
+              content: Column(
+                children: [
+                  TextField(
+                    controller: _optToken,
+                  ),
+                  RaisedButton(
+                    child: Text("Validar"),
+                    onPressed: () {
+                      try {
+                        String smsCodigo = _optToken.text.trim();
+                        PhoneAuthProvider.credential(
+                          verificationId: verificacionID,
+                          smsCode: smsCodigo,
+                        );
+                        print(_optToken.text);
+                      } on Exception catch (e) {
+                        print(e);
+                      }
                     },
                   )
-                : Container(),
-            RaisedButton(onPressed: () {
-              verificarTelefono(numero);
-            })
-          ],
-        ),
-      ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+      codeAutoRetrievalTimeout: (String verificacionID) {
+        print(verificacionID);
+      },
     );
   }
 
-  Future<void> verificarTelefono(String numero) async {
-    final PhoneVerificationCompleted verificado =
-        (PhoneAuthCredential authResult) {
-      print(authResult);
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => CrearClave(),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            TextField(
+              controller: _numeroCelular,
+            ),
+            RaisedButton(
+              child: Text("Enviar"),
+              onPressed: () {
+                autententicacionCelular();
+              },
+            ),
+          ],
         ),
-      );
-    };
-
-    final PhoneVerificationFailed noVerifiado = (FirebaseAuthException e) {
-      return Fluttertoast.showToast(
-        msg: "No verificado",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
-    };
-
-    final PhoneCodeSent smsEnviado = (String code, [int forzarReenvio]) {
-      this.idVerificacion = code;
-      setState(() {
-        this.codeSent = true;
-      });
-    };
-
-    final PhoneCodeAutoRetrievalTimeout autoTimeOut = (String code) {
-      this.idVerificacion = code;
-    };
-
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: numero,
-      timeout: Duration(seconds: 60),
-      verificationCompleted: verificado,
-      verificationFailed: noVerifiado,
-      codeSent: smsEnviado,
-      codeAutoRetrievalTimeout: autoTimeOut,
+      ),
     );
   }
 }

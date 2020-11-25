@@ -5,14 +5,19 @@ import 'package:mobike/home/homeScreen.dart';
 import 'package:mobike/loginRegister/login/loginScreen.dart';
 import 'package:mobike/loginRegister/register/crearClave/crearClave.dart';
 import 'package:mobike/loginRegister/register/registerScreen.dart';
+import 'package:mobike/loginRegister/register/tarjetaCredito/tarjetaScreen.dart';
 
 import 'const.dart';
+import 'localizador.dart';
+import 'loginRegister/register/validarNumeroCelular/validacion.dart';
 import 'utils/theme.dart';
 
 Future<void> main() async {
   //ERROR AQUI - MAIN
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  setupServices();
+
   runApp(Mobike());
 }
 
@@ -33,8 +38,6 @@ class Mobike extends StatelessWidget {
   }
 }
 
-
-
 class Autenticacion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -42,8 +45,6 @@ class Autenticacion extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
-          print(snapshot.hasData);
-          print(snapshot.data);
           return HomePage();
         }
         return SingInPage();

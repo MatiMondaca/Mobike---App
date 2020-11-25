@@ -4,6 +4,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobike/loginRegister/register/tarjetaCredito/tarjetaScreen.dart';
 import 'package:mobike/const.dart';
 import '../../utils/responsivo.dart';
+import 'package:mobike/localizador.dart';
+import 'package:mobike/Controllers/controladorFirebase.dart';
+
+ControladorFirebase _authCon = locator.get<ControladorFirebase>();
 
 // ignore: must_be_immutable
 class RegisterScreen extends StatefulWidget {
@@ -123,7 +127,6 @@ class CuerpoRegistro extends StatelessWidget {
   }
 }
 
-// ignore: must_be_immutable
 class FormularioRegistro extends StatefulWidget {
   String numero;
   static final FormularioRegistro _instanciaReg =
@@ -140,8 +143,17 @@ class FormularioRegistro extends StatefulWidget {
 }
 
 class _FormularioRegistroState extends State<FormularioRegistro> {
+  TextEditingController _rutController = TextEditingController();
+  TextEditingController _nombreController = TextEditingController();
+  TextEditingController _apellidoController = TextEditingController();
+  TextEditingController _comunaController = TextEditingController();
+  TextEditingController _direccionController = TextEditingController();
+  TextEditingController _correoController = TextEditingController();
+  TextEditingController _celularController = TextEditingController();
+
   String dropdownValue = '';
   bool _isCheckeda = false;
+
   bool _isCheckedb = false;
 
   void onChangeda(bool value) {
@@ -162,7 +174,8 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
     return Form(
       child: Column(
         children: [
-          CampoTextoRegistro(
+          CampoTextoFormulario(
+            controller: _rutController,
             hint: 'Ingrese su RUT',
             label: 'RUT',
             helper: 'Con punto y Guión Ej. 11.111.111-1',
@@ -172,21 +185,24 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
             icono: Icon(Icons.person),
           ),
           SizedBox(height: responsivo.diagonalPantalla(2.5)),
-          CampoTextoRegistro(
+          CampoTextoFormulario(
+            controller: _nombreController,
             hint: 'Ingrese su Nombre',
             label: 'Nombre',
             tipoTeclado: TextInputType.name,
             icono: Icon(Icons.person),
           ),
           SizedBox(height: responsivo.diagonalPantalla(3.5)),
-          CampoTextoRegistro(
+          CampoTextoFormulario(
+            controller: _apellidoController,
             hint: 'Ingrese su Apellido',
             label: 'Apellido',
             tipoTeclado: TextInputType.name,
             icono: Icon(Icons.person),
           ),
           SizedBox(height: responsivo.diagonalPantalla(3.5)),
-          CampoTextoRegistro(
+          CampoTextoFormulario(
+            controller: _comunaController,
             hint: '¿En que comúna vive? Eliga una.',
             label: 'Comuna',
             helper: 'La Reina / Providencia / ÑuÑoa / Otra.',
@@ -232,13 +248,15 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
             ],
           ),
           SizedBox(height: responsivo.diagonalPantalla(3)),
-          CampoTextoRegistro(
+          CampoTextoFormulario(
+            controller: _direccionController,
             hint: 'Ingrese su Dirección',
             label: 'Dirección',
             icono: Icon(Icons.home),
           ),
           SizedBox(height: responsivo.diagonalPantalla(3.5)),
-          CampoTextoRegistro(
+          CampoTextoFormulario(
+            controller: _correoController,
             hint: 'Ingrese su Correo',
             label: 'Correo',
             icono: Icon(Icons.email),
@@ -256,7 +274,8 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
                 ),
                 Container(
                   width: responsivo.diagonalPantalla(29),
-                  child: CampoTextoRegistro(
+                  child: CampoTextoFormulario(
+                    controller: _celularController,
                     hint: 'Ingrese su Celular',
                     label: 'Celular',
                     icono: Icon(Icons.phone),
@@ -295,7 +314,24 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
           ),
           Divider(),
           Boton(
-            presionar: () {},
+            presionar: () {
+              try {
+                _authCon.registrarUsuario(
+                   _rutController.text.trim(),
+                  _nombreController.text.trim(),
+                  _apellidoController.text.trim(),
+                  _apellidoController.text.trim(),
+                  1,
+                  _direccionController.text.trim(),
+                  _correoController.text.trim(),
+                  'hola123',
+                  int.parse(_celularController.text),
+
+                );
+              } catch (e) {
+                print(e);
+              }
+            },
             textoBoton: '¡Estoy Listo!',
             color: Color.fromRGBO(108, 99, 255, 1),
           ),
@@ -337,58 +373,6 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
           )
         ],
       ),
-    );
-  }
-}
-
-class CampoTextoRegistro extends StatelessWidget {
-  const CampoTextoRegistro({
-    this.controller,
-    this.estilo,
-    this.tipoTeclado,
-    this.largoMaximo,
-    this.hint,
-    this.label,
-    this.helper,
-    this.icono,
-    this.onChanged,
-    this.textoPrefijo,
-  });
-
-  final TextStyle estilo;
-  final TextInputType tipoTeclado;
-  final int largoMaximo;
-  final String hint;
-  final String label;
-  final String helper;
-  final Icon icono;
-  final TextEditingController controller;
-  final Function onChanged;
-  final String textoPrefijo;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      onChanged: onChanged,
-      autocorrect: true,
-      maxLines: 1,
-      minLines: 1,
-      maxLength: largoMaximo,
-      keyboardType: tipoTeclado,
-      decoration: buildInputDecoration(),
-    );
-  }
-
-  InputDecoration buildInputDecoration() {
-    return InputDecoration(
-      prefixText: textoPrefijo,
-      hintText: hint,
-      labelText: label,
-      helperText: helper,
-      helperStyle: estilo,
-      prefixIcon: icono,
-      floatingLabelBehavior: FloatingLabelBehavior.always,
     );
   }
 }

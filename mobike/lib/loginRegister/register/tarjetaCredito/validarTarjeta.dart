@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobike/Controllers/controladorTarjetaCredito.dart';
+import 'package:mobike/localizador.dart';
 
 import '../../../const.dart';
 
@@ -19,6 +21,7 @@ class ValidarTarjeta extends StatefulWidget {
 }
 
 class _ValidarTarjetaState extends State<ValidarTarjeta> {
+  ControladorTarjeta _controladorTarjeta = locator.get<ControladorTarjeta>();
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
@@ -33,20 +36,19 @@ class _ValidarTarjetaState extends State<ValidarTarjeta> {
         setState(() {
           pagRegistro.numero = widget._numerotarjeta.text;
         });
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => pagRegistro));
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => pagRegistro),
+        );
       },
-      color: Colors.green[400],
+      color: Color.fromRGBO(108, 99, 255, 1),
       textColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       padding: EdgeInsets.all(15.0),
       child: Text(
         "Agregar Tajerta de credito",
         style: TextStyle(
-          fontSize: 16,
-          fontFamily: 'Century-Gothic',
+          fontSize: 20,
+          color: Colors.white,
         ),
       ),
     );

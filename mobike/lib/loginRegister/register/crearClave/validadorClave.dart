@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mobike/utils/responsivo.dart';
 
 // ignore: must_be_immutable
 class EditTxTValid extends StatefulWidget {
   bool cbxMinCaracter = false;
   bool cbxMayus = false;
   bool cbxNumero = false;
+  bool cbxIgualdad = false;
   var editTxTValidState = _EditTxTValidState();
 
   bool _validarMayuscula(String clave) {
@@ -19,12 +21,18 @@ class EditTxTValid extends StatefulWidget {
     return (regExp.hasMatch(clave)) ? true : false;
   }
 
-  void validation(String text) {
+  void validation(String text, String text2) {
     // ignore: invalid_use_of_protected_member
     editTxTValidState.setState(() {
-      cbxMinCaracter = text.length > 8;
+      cbxMinCaracter = text.length >= 8;
       cbxMayus = _validarMayuscula(text);
       cbxNumero = _validarNumero(text);
+      if (cbxMinCaracter) {
+        cbxIgualdad = text == text2;
+      } else {
+        cbxIgualdad = false;
+      }
+      print(cbxIgualdad);
     });
   }
 
@@ -35,122 +43,80 @@ class EditTxTValid extends StatefulWidget {
 }
 
 class _EditTxTValidState extends State<EditTxTValid> {
-  TextStyle estiloCorrecto = TextStyle(
-    fontFamily: 'Century-Gothic',
-    fontSize: 16.0,
-    fontWeight: FontWeight.bold,
-    color: Colors.green,
-  );
-
-  TextStyle estiloIncorrecto = TextStyle(
-    fontFamily: 'Century-Gothic',
-    fontSize: 16.0,
-  );
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
+    final responsivo = Responsivo.of(context);
+
+    TextStyle estiloCorrecto = TextStyle(
+      fontSize: responsivo.diagonalPantalla(2),
+    );
+
+    TextStyle estiloIncorrecto = TextStyle(
+      fontSize: responsivo.diagonalPantalla(2),
+      fontWeight: FontWeight.bold,
+      color: Colors.green,
+    );
+
+    Icon iconoCorrecto = Icon(
+      Icons.check_circle,
+      color: Colors.green,
+    );
+
+    Icon iconoIncorrecto = Icon(
+      Icons.check_circle_outline,
+      color: Colors.red,
+    );
+
+    return SizedBox(
+      width: double.infinity,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-
-          ///
-          /// Validador: Minimo 8 caracteres.
-          ///
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Column(
             children: [
-              Container(
-                margin: EdgeInsets.only(right: 5),
-                child: widget.cbxMinCaracter
-                    ? Icon(
-                        Icons.check_circle,
-                        color: Colors.green,
-                      )
-                    : Icon(
-                        Icons.check_circle,
-                        color: Colors.red,
-                      ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 2, top: 4),
+                child: Container(
+                  child:
+                      widget.cbxMinCaracter ? iconoCorrecto : iconoIncorrecto,
+                ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 2),
+                child: Container(
+                  child: widget.cbxMayus ? iconoCorrecto : iconoIncorrecto,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 3),
+                child: Container(
+                  child: widget.cbxNumero ? iconoCorrecto : iconoIncorrecto,
+                ),
+              ),
+              Container(
+                child: widget.cbxIgualdad ? iconoCorrecto : iconoIncorrecto,
+              ),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               widget.cbxMinCaracter
-                  ? Text(
-                      "Mínimo 8 carácteres",
-                      textAlign: TextAlign.center,
-                      style: estiloCorrecto,
-                    )
-                  : Text(
-                      "Mínimo 8 carácteres",
-                      textAlign: TextAlign.center,
-                      style: estiloIncorrecto,
-                    ),
-            ],
-          ),
-
-          ///
-          /// Validador: Al menos una mayuscula.
-          ///
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                margin: EdgeInsets.only(right: 5, left: 35),
-                child: widget.cbxMayus
-                    ? Icon(
-                        Icons.check_circle,
-                        color: Colors.green,
-                      )
-                    : Icon(
-                        Icons.check_circle,
-                        color: Colors.red,
-                      ),
-              ),
+                  ? Text("Mínimo 8 caracteres", style: estiloIncorrecto)
+                  : Text("Mínimo 8 caracteres", style: estiloCorrecto),
               widget.cbxMayus
-                  ? Text(
-                      "Al menos una mayúscula",
-                      textAlign: TextAlign.center,
-                      style: estiloCorrecto,
-                    )
-                  : Text(
-                      "Al menos una mayúscula",
-                      textAlign: TextAlign.center,
-                      style: estiloIncorrecto,
-                    ),
+                  ? Text("Al menos una mayúscula", style: estiloIncorrecto)
+                  : Text("Al menos una mayúscula", style: estiloCorrecto),
+              widget.cbxNumero
+                  ? Text("Al menos un número", style: estiloIncorrecto)
+                  : Text("Al menos un número", style: estiloCorrecto),
+              widget.cbxIgualdad
+                  ? Text("Las contraseñas coinciden", style: estiloIncorrecto)
+                  : Text("Las contraseñas coinciden", style: estiloCorrecto),
             ],
           ),
-
-          ///
-          /// Validador: Al menos un numero.
-          ///
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                margin: EdgeInsets.only(right: 5),
-                child: widget.cbxNumero
-                    ? Icon(
-                        Icons.check_circle,
-                        color: Colors.green,
-                      )
-                    : Icon(
-                        Icons.check_circle,
-                        color: Colors.red,
-                      ),
-              ),
-              widget.cbxNumero
-                  ? Text(
-                      "Al menos un número",
-                      textAlign: TextAlign.center,
-                      style: estiloCorrecto,
-                    )
-                  : Text(
-                      "Al menos un número",
-                      textAlign: TextAlign.center,
-                      style: estiloIncorrecto,
-                    ),
-            ],
-          )
         ],
       ),
-      padding: EdgeInsets.all(30),
     );
   }
 }

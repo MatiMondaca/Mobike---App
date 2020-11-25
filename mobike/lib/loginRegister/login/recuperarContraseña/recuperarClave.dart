@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobike/loginRegister/login/autenticacion/auth.dart';
+import 'package:mobike/Controllers/controladorFirebase.dart';
+import 'package:mobike/localizador.dart';
 
 class RecuperarClave extends StatefulWidget {
   @override
@@ -9,7 +10,7 @@ class RecuperarClave extends StatefulWidget {
 class _RecuperarClaveState extends State<RecuperarClave> {
   TextEditingController resetEmail = TextEditingController();
   GlobalKey<FormState> _formReset = GlobalKey<FormState>();
-
+  ControladorFirebase _authCon = locator.get<ControladorFirebase>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,8 +49,7 @@ class _RecuperarClaveState extends State<RecuperarClave> {
                   RaisedButton(
                     onPressed: () {
                       if (_formReset.currentState.validate()) {
-                        AutenticacionServicio.resetPassword(
-                            email: resetEmail.text.trim());
+                        _authCon.resetPassword(email: resetEmail.text.trim());
                       }
                     },
                   )

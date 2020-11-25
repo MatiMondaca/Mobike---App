@@ -4,13 +4,16 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mobike/Models/modeloUsuario.dart';
 
-class AutenticacionServicio {
+class ControladorFirebase {
   static FirebaseAuth _auth = FirebaseAuth.instance;
+  ControladorFirebase();
+  // por que esta esto aqui?
   static DatabaseReference usuarioRef =
       FirebaseDatabase.instance.reference().child("usuarios");
-
-  static entrarConEmail({String email, String password}) async {
+  //
+  entrarConEmail({String email, String password}) async {
     try {
       final res = await _auth.signInWithEmailAndPassword(
         email: email,
@@ -30,12 +33,13 @@ class AutenticacionServicio {
     }
   }
 
-  static cerrarSesion() {
+// metodo para cerrar sesion
+   cerrarSesion() {
     print("Salir");
     return _auth.signOut();
   }
 
-  static resetPassword({String email}) async {
+   resetPassword({String email}) async {
     try {
       print(email);
 
@@ -46,6 +50,37 @@ class AutenticacionServicio {
       print(e.code);
       print("Error: ${e.message}");
     }
+  }
+
+  Future<bool> validarContrasena(String password) async {
+    var usuarioFirebase = _auth.currentUser;
+
+    var authCredentials = EmailAuthProvider.credential(
+        email: usuarioFirebase.email, password: password);
+    try {
+      var authResult =
+          await usuarioFirebase.reauthenticateWithCredential(authCredentials);
+      return authResult.user != null;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  ModeloUsuario obtenerUsuario() {
+    var usuarioFirebase = _auth.currentUser;
+    return ModeloUsuario(usuarioFirebase?.uid, displayName: usuarioFirebase?.displayName);
+  }
+
+  void actualizarDisplayNombre(String nombre) {
+    var user = _auth.currentUser;
+
+    user.updateProfile(displayName: user.displayName);
+  }
+
+  void actualizarContrasena(String password) {
+    var firebaseUser = _auth.currentUser;
+    firebaseUser.updatePassword(password);
   }
 
   static void registrarUsuario(

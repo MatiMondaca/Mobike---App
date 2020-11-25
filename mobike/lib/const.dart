@@ -1,12 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:mobike/loginRegister/login/autenticacion/auth.dart';
+import 'package:mobike/Controllers/controladorFirebase.dart';
 import 'package:mobike/loginRegister/register/registerScreen.dart';
+import 'package:mobike/localizador.dart';
 
 const iconBicicleta = 'assets/svg/pinBici.svg';
 const iconBicicletaLogin = 'assets/svg/bicicleta.svg';
-
+ControladorFirebase _authCon = locator.get<ControladorFirebase>();
 ///
 /// Titulo AppBar Home
 ///
@@ -44,7 +45,7 @@ AlertDialog cuerpoAlerta(BuildContext context) {
           style: TextStyle(fontSize: 15),
         ),
         onPressed: () {
-          AutenticacionServicio.cerrarSesion();
+          _authCon.cerrarSesion();
           exit(0);
         },
       ),

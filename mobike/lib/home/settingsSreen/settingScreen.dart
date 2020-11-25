@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobike/loginRegister/login/autenticacion/auth.dart';
+import 'package:mobike/Controllers/controladorFirebase.dart';
 import 'package:mobike/loginRegister/login/loginScreen.dart';
+import 'package:mobike/localizador.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key key}) : super(key: key);
@@ -10,6 +11,7 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  ControladorFirebase _authCon = locator.get<ControladorFirebase>();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -100,7 +102,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           _popPage(context);
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (context) => SingInPage()));
-          AutenticacionServicio.cerrarSesion();
+          _authCon.cerrarSesion();
         },
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),

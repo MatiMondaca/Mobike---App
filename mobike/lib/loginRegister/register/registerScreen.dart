@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobike/loginRegister/login/loginScreen.dart';
+//import 'package:mobike/loginRegister/login/loginScreen.dart';
 import 'package:mobike/loginRegister/register/tarjetaCredito/tarjetaScreen.dart';
 import 'package:mobike/const.dart';
 
@@ -235,11 +235,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   /// METODOS - VALIDACIONES
   ///
 
-  void _pushPage(BuildContext context, Widget page) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => page),
-    );
-  }
+  // void _pushPage(BuildContext context, Widget page) {
+  //   Navigator.of(context).push(
+  //     MaterialPageRoute<void>(builder: (_) => page),
+  //   );
+  // }
 
   void _popPage(BuildContext context) {
     Navigator.of(context).pop();

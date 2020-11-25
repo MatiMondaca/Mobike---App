@@ -6,13 +6,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobike/home/homeScreen.dart';
 
-import 'package:mobike/const.dart';
+//import 'package:mobike/const.dart';
 import 'package:mobike/loginRegister/login/cargarSiguiente.dart';
-import 'package:mobike/loginRegister/login/recuperarContrase%C3%B1a/recuperarClave.dart';
+//import 'package:mobike/loginRegister/login/recuperarContrase%C3%B1a/recuperarClave.dart';
 import 'package:mobike/loginRegister/register/registerScreen.dart';
 
-import 'autenticacion/auth.dart';
+import '../../Controllers/controladorFirebase.dart';
 import '../../utils/responsivo.dart';
+import 'package:mobike/localizador.dart';
 
 class SingInPage extends StatefulWidget {
   @override
@@ -66,6 +67,7 @@ class _VentanaLoginState extends State<VentanaLogin> {
   bool cargar = false;
   FocusNode _correoFocus = FocusNode();
   FocusNode _claveFocus = FocusNode();
+  ControladorFirebase _authCon = locator.get<ControladorFirebase>();
 
   TextEditingController _emailController = TextEditingController();
   TextEditingController _claveController = TextEditingController();
@@ -143,8 +145,8 @@ class _VentanaLoginState extends State<VentanaLogin> {
                                     if (validarCorreo(_emailController.text)) {
                                       setState(() => cargar = true);
                                       try {
-                                        final user = await AutenticacionServicio
-                                            .entrarConEmail(
+                                        var user =
+                                            await _authCon.entrarConEmail(
                                           email: _emailController.text,
                                           password: _claveController.text,
                                         );

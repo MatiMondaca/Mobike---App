@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:mobike/home/homeScreen.dart';
 import 'package:mobike/loginRegister/login/loginScreen.dart';
+import 'package:mobike/localizador.dart';
 
 Future<void> main() async {
   //ERROR AQUI - MAIN
   WidgetsFlutterBinding.ensureInitialized();
+  setupServices();
   await Firebase.initializeApp();
   runApp(Mobike());
 }

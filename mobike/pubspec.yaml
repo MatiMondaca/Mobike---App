@@ -21,8 +21,13 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  #libreria para facilitar el uso del patron MVC
+  mvc_pattern: ^3.4.1
+  #Libreria para utilizar toast de forma sencilla, ya que flutter por defecto sólo posee snackbar
   fluttertoast: ^7.1.1
+  #Libreria utilizada para lanzar una url o numero telefonico(hace llamado a la app del telefono, no directamente)
   url_launcher: ^5.7.10
+  #libreria base de flutter
   flutter:
     sdk: flutter
 
@@ -32,14 +37,19 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
   meta:
+  #libreria utilziada para facilitar el uso de Singletons 
+  get_it: ^4.0.1
+  image_picker: ^0.6.4
     
   firebase_auth: 
+  firebase_storage:
   firebase_core:
   flutter_map: 
   flutter_svg:
   firebase_database: ^4.3.0
   awesome_card: ^1.1.0
   flutter_multi_formatter: ^1.1.8
+  flutter_icons: ^1.0.0+1
   flutter_spinkit: ^4.1.2
 
 

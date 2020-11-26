@@ -6,9 +6,13 @@ import 'package:mobike/loginRegister/login/loginScreen.dart';
 import 'package:mobike/loginRegister/register/crearClave/crearClave.dart';
 import 'package:mobike/loginRegister/register/registerScreen.dart';
 import 'package:mobike/loginRegister/register/tarjetaCredito/tarjetaScreen.dart';
+import 'package:mobike/loginRegister/register/validarNumeroCelular/validarNumero.dart';
 
 import 'const.dart';
+import 'home/homeScreen.dart';
 import 'localizador.dart';
+import 'loginRegister/login/loginScreen.dart';
+import 'loginRegister/login/loginScreen.dart';
 import 'loginRegister/register/validarNumeroCelular/validacion.dart';
 import 'utils/theme.dart';
 
@@ -33,7 +37,7 @@ class Mobike extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: theme(),
-      home: SingInPage(),
+      home: Autenticacion(),
     );
   }
 }
@@ -45,9 +49,9 @@ class Autenticacion extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
-          return HomePage();
+          return ValidarCelular();
         }
-        return SingInPage();
+        return ValidarCelular();
       },
     );
   }

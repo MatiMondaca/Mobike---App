@@ -91,11 +91,11 @@ class ControladorFirebase {
       String nombre,
       String apellido,
       String comuna,
-      int numTarjeta,
+      String numTarjeta,
       String direccion,
       String correo,
       String clave,
-      int telefono,
+      String telefono,
       [String avatarUrl]) async {
     final User firebaseUser = (await _auth.createUserWithEmailAndPassword(
             email: correo, password: clave))

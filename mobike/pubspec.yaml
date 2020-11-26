@@ -85,6 +85,7 @@ flutter:
     - assets/svg/visa.svg
     - assets/svg/mastercard.svg
     - assets/svg/authentication.svg
+    - assets/svg/celular.svg
     
     - alerta.png
     - sos.png

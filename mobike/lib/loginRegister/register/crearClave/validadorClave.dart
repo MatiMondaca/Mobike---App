@@ -32,7 +32,6 @@ class EditTxTValid extends StatefulWidget {
       } else {
         cbxIgualdad = false;
       }
-      print(cbxIgualdad);
     });
   }
 

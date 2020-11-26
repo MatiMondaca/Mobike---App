@@ -44,16 +44,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  ///
-  /// METODOS - VALIDACIONES
-  ///
-
-  void _pushPage(BuildContext context, Widget page) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => page),
-    );
-  }
-
   void _popPage(BuildContext context) {
     Navigator.of(context).pop();
   }
@@ -234,7 +224,7 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
                       builder: (context) => TarjetaCredito(),
                     ),
                   );
-                  
+                  setState(() {});
                 },
                 child: Text(
                   "+ Agregar tarjeta",
@@ -273,7 +263,7 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
                   ),
                 ),
                 Container(
-                  width: responsivo.diagonalPantalla(29),
+                  width: responsivo.diagonalPantalla(28),
                   child: CampoTextoFormulario(
                     controller: _celularController,
                     hint: 'Ingrese su Celular',
@@ -321,11 +311,11 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
                   _nombreController.text.trim(),
                   _apellidoController.text.trim(),
                   _apellidoController.text.trim(),
-                  1,
+                  _controladorTarjeta.getNumero.trim(),
                   _direccionController.text.trim(),
                   _correoController.text.trim(),
                   'hola123',
-                  int.parse(_celularController.text),
+                  _celularController.text.trim(),
                 );
               } catch (e) {
                 print(e);

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mobike/views/Home/VentanaAsistencia/AssistPage.dart';
-import 'package:mobike/views/Home/VentanaPerfilUsuario/userProfile.dart';
+import 'package:mobike/views/Home/VentanaPerfilUsuario/userPerfil.dart';
+//import 'package:mobike/views/Home/VentanaPerfilUsuario/userProfile.dart';
 
-import '../../VentanaHome/VentanaConfiguracion/settingScreen.dart';
+import '../../Home/VentanaConfiguracion/settingScreen.dart';
 import '../../../const.dart';
 import '../../../api/API_MapBox.dart';
 
@@ -26,7 +27,7 @@ class _HomePageState extends State<HomePage> {
             color: Colors.black,
             iconSize: 40.0,
             onPressed: () {
-              _pushPage(context, UserProfile());
+              _pushPage(context, ProfileView());
               //_pushPage(context, UserProfile());
             },
           ),

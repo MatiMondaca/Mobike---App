@@ -5,6 +5,8 @@ import 'package:mobike/views/Registro/VentanaValidarNumero/mainValidadNumero.dar
 
 import 'localizador.dart';
 import 'utils/theme.dart';
+import 'views/Login/VentanaLogin/loginScreen.dart';
+
 
 Future<void> main() async {
   //ERROR AQUI - MAIN
@@ -39,9 +41,9 @@ class Autenticacion extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
-          return ValidarCelular();
+          return SingInPage();
         }
-        return ValidarCelular();
+        return SingInPage();
       },
     );
   }

@@ -89,21 +89,7 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _controladorTarjeta.getNumero == ''
-                  ? Text(
-                      "Tarjeta de Crédito",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: responsivo.diagonalPantalla(2.5),
-                      ),
-                    )
-                  : Text(
-                      _controladorTarjeta.getNumero,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: responsivo.diagonalPantalla(2.5),
-                      ),
-                    ),
+              condicionText(),
               FlatButton(
                 onPressed: () async {
                   await Navigator.of(context).push(
@@ -197,7 +183,7 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
                   _rutController.text.trim(),
                   _nombreController.text.trim(),
                   _apellidoController.text.trim(),
-                  _apellidoController.text.trim(),
+                  _comunaController.text.trim(),
                   _controladorTarjeta.getNumero.trim(),
                   _direccionController.text.trim(),
                   _correoController.text.trim(),
@@ -250,5 +236,26 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
         ],
       ),
     );
+  }
+
+  Widget condicionText() {
+    final responsivo = Responsivo.of(context);
+    if (_controladorTarjeta.getNumero == '') {
+      return Text(
+        "Tarjeta de Crédito",
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: responsivo.diagonalPantalla(2.5),
+        ),
+      );
+    } else {
+      return Text(
+        _controladorTarjeta.getNumero,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: responsivo.diagonalPantalla(2.5),
+        ),
+      );
+    }
   }
 }

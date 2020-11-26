@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class Listo extends StatelessWidget {
-  const Listo({Key key}) : super(key: key);
+class VentanaCargaNumero extends StatelessWidget {
+  const VentanaCargaNumero({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

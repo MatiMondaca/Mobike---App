@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_multi_formatter/utils/unfocuser.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobike/Controllers/controladorFirebase.dart';
-import 'package:mobike/home/homeScreen.dart';
+import 'package:mobike/views/Home/VentanaHome/homeScreen.dart';
 
 import 'package:mobike/const.dart';
-import 'package:mobike/loginRegister/login/cargarSiguiente.dart';
-import 'package:mobike/loginRegister/register/registerScreen.dart';
+import 'package:mobike/views/Login/VentanaLogin/utils/cargarSiguiente.dart';
+import 'package:mobike/views/Registro/VentanaRegistro/mainVentanaRegistro.dart';
 
 import 'package:mobike/localizador.dart';
-import '../../utils/responsivo.dart';
+import '../../../utils/responsivo.dart';
 
 ControladorFirebase _authCon = locator.get<ControladorFirebase>();
 

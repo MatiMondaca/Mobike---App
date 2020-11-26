@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mobike/Assist/AssistPage.dart';
+import 'package:mobike/views/Home/VentanaAsistencia/AssistPage.dart';
+import 'package:mobike/views/Home/VentanaPerfilUsuario/userProfile.dart';
 
-import 'settingsSreen/settingScreen.dart';
-import 'userProfileScreen/userProfile.dart';
-import '../const.dart';
-import 'map/mapScreen.dart';
+import '../../VentanaHome/VentanaConfiguracion/settingScreen.dart';
+import '../../../const.dart';
+import '../../../api/API_MapBox.dart';
 
 class HomePage extends StatefulWidget {
   @override

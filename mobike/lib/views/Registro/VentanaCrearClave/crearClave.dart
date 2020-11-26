@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/utils/unfocuser.dart';
-import 'package:mobike/loginRegister/register/crearClave/validadorClave.dart';
+import 'package:mobike/views/Registro/VentanaCrearClave/utils/validadorClave.dart';
 import 'package:mobike/utils/responsivo.dart';
 
 class CrearClave extends StatelessWidget {
@@ -201,7 +201,7 @@ class _FormularioCrearClaveState extends State<FormularioCrearClave> {
               ),
               color: Color.fromRGBO(108, 99, 255, 1),
               onPressed: () {
-                //TODO: El boton no funciona, pasar los parametros del registro para habilitar
+                // El boton no funciona, pasar los parametros del registro para habilitar
               },
             ),
           ),

@@ -6,11 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:flutter_multi_formatter/formatters/credit_card_number_input_formatter.dart';
 import 'package:flutter_multi_formatter/utils/unfocuser.dart';
-import 'package:mobike/Controllers/controladorTarjetaCredito.dart';
 import 'package:mobike/const.dart';
-import 'package:mobike/localizador.dart';
 
-import 'package:mobike/loginRegister/register/tarjetaCredito/validarTarjeta.dart';
+import 'package:mobike/views/Registro/VentanaTarjetaCredito/utils/validarTarjeta.dart';
 
 class TarjetaCredito extends StatefulWidget {
   TarjetaCredito({this.numTarjeta});
@@ -21,7 +19,7 @@ class TarjetaCredito extends StatefulWidget {
 }
 
 class _TarjetaCreditoState extends State<TarjetaCredito> {
-  ControladorTarjeta _controladorTarjeta = locator.get<ControladorTarjeta>();
+  //ControladorTarjeta _controladorTarjeta = locator.get<ControladorTarjeta>();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 

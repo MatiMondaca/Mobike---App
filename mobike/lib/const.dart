@@ -1,14 +1,12 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:mobike/loginRegister/register/registerScreen.dart';
-
 import 'Controllers/controladorFirebase.dart';
 import 'localizador.dart';
 
 const iconBicicleta = 'assets/svg/pinBici.svg';
 const iconBicicletaLogin = 'assets/svg/bicicleta.svg';
 ControladorFirebase _authCon = locator.get<ControladorFirebase>();
+
 ///
 /// Titulo AppBar Home
 ///
@@ -20,8 +18,6 @@ Widget appbar = Text(
   ),
   textAlign: TextAlign.center,
 );
-
-
 
 // Cuerpo de la alerta al momento de presionar el boton back
 AlertDialog cuerpoAlerta(BuildContext context) {

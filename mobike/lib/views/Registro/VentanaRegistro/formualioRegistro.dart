@@ -1,137 +1,24 @@
+// ignore: must_be_immutable
 import 'package:flutter/material.dart';
-import 'package:flutter_multi_formatter/utils/unfocuser.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mobike/loginRegister/register/tarjetaCredito/tarjetaScreen.dart';
-import 'package:mobike/const.dart';
-import '../../localizador.dart';
-import '../../utils/responsivo.dart';
-import 'package:mobike/localizador.dart';
 import 'package:mobike/Controllers/controladorFirebase.dart';
 import 'package:mobike/Controllers/controladorTarjetaCredito.dart';
-
-ControladorFirebase _authCon = locator.get<ControladorFirebase>();
-ControladorTarjeta _controladorTarjeta = locator.get<ControladorTarjeta>();
-
-// ignore: must_be_immutable
-class RegisterScreen extends StatefulWidget {
-  static final RegisterScreen _instanciaReg = RegisterScreen._internal();
-  RegisterScreen._internal();
-
-  RegisterScreen();
-
-  @override
-  _RegisterScreenState createState() => _RegisterScreenState();
-}
-
-class _RegisterScreenState extends State<RegisterScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Unfocuser(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text("Registro"),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              _popPage(context);
-            },
-          ),
-        ),
-        body: CuerpoRegistro(),
-      ),
-    );
-  }
-
-  void _popPage(BuildContext context) {
-    Navigator.of(context).pop();
-  }
-
-  // METODO PARA GENERAR TEXTFIELD - SE AGREGA COMO PARAMETRO CONTROLLER
-  Padding buildCampoTextoRegistro(TextEditingController controller) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 15.0),
-      child: TextFormField(
-        controller: controller,
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(10.0),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-        ),
-      ),
-    );
-  }
-
-  // METODO PARA CONFIRMAR SALIDA DE LA APLICACIÓN
-  Future<bool> salirApp() {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return cuerpoAlerta(context);
-      },
-    );
-  }
-}
-
-class CuerpoRegistro extends StatelessWidget {
-  const CuerpoRegistro({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final responsivo = Responsivo.of(context);
-    return ListView(
-      children: [
-        SafeArea(
-          child: SizedBox(
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Column(
-                children: [
-                  Text(
-                    "¡Comienza tu aventura!",
-                    style: TextStyle(
-                      color: Color.fromRGBO(108, 99, 255, 1),
-                      fontSize: responsivo.diagonalPantalla(3.1),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    "Para ser parte de está comunidad \nregistra tus datos aquí abajo.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: responsivo.diagonalPantalla(1.6),
-                      color: Color(0XFF8B8B8B),
-                    ),
-                  ),
-                  Divider(),
-                  FormularioRegistro(null),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
+import 'package:mobike/const.dart';
+import 'package:mobike/localizador.dart';
+import 'package:mobike/views/Registro/VentanaTarjetaCredito/tarjetaScreen.dart';
+import 'package:mobike/utils/responsivo.dart';
 
 class FormularioRegistro extends StatefulWidget {
-  String numero;
-  static final FormularioRegistro _instanciaReg =
-      FormularioRegistro._internal();
-  FormularioRegistro._internal();
-
-  factory FormularioRegistro(String numero) {
-    _instanciaReg.numero = numero ?? '';
-    return _instanciaReg;
-  }
-
   @override
   _FormularioRegistroState createState() => _FormularioRegistroState();
 }
 
 class _FormularioRegistroState extends State<FormularioRegistro> {
+  //Controladores
+  ControladorFirebase _authCon = locator.get<ControladorFirebase>();
+  ControladorTarjeta _controladorTarjeta = locator.get<ControladorTarjeta>();
+
+  // Controllers TextFormField
   TextEditingController _rutController = TextEditingController();
   TextEditingController _nombreController = TextEditingController();
   TextEditingController _apellidoController = TextEditingController();

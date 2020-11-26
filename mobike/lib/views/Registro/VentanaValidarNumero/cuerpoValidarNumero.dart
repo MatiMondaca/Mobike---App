@@ -1,38 +1,11 @@
-import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_multi_formatter/utils/unfocuser.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mobike/Listo.dart';
-
-import '../../../Controllers/controladorFirebase.dart';
-import '../../../const.dart';
-import '../../../const.dart';
-import '../../../localizador.dart';
-import '../../../utils/responsivo.dart';
-import '../crearClave/crearClave.dart';
-import '../crearClave/crearClave.dart';
-import '../crearClave/crearClave.dart';
-import '../crearClave/crearClave.dart';
-
-class ValidarCelular extends StatelessWidget {
-  const ValidarCelular({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Unfocuser(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text("Valida tu Celular"),
-        ),
-        body: CuerpoValidarCelular(),
-      ),
-    );
-  }
-}
+import 'package:mobike/views/Registro/VentanaValidarNumero/utils/VentanaCargaNumero.dart';
+import 'package:mobike/const.dart';
+import 'package:mobike/utils/responsivo.dart';
+import 'package:mobike/views/Registro/VentanaCrearClave/crearClave.dart';
 
 class CuerpoValidarCelular extends StatefulWidget {
   @override
@@ -40,9 +13,12 @@ class CuerpoValidarCelular extends StatefulWidget {
 }
 
 class _CuerpoValidarCelularState extends State<CuerpoValidarCelular> {
-  ControladorFirebase _authCon = locator.get<ControladorFirebase>();
-  TextEditingController _numeroCelular = TextEditingController();
+  // ControladorFirebase _authCon = locator.get<ControladorFirebase>();
+  // TextEditingController _numeroCelular = TextEditingController();
   FirebaseAuth _auth = FirebaseAuth.instance;
+  String phoneNo, smssent, verificationId;
+  get verificado => null;
+
   @override
   Widget build(BuildContext context) {
     final responsivo = Responsivo.of(context);
@@ -75,33 +51,17 @@ class _CuerpoValidarCelularState extends State<CuerpoValidarCelular> {
             SizedBox(
               child: Column(
                 children: [
-                  // SizedBox(
-                  //   height: responsivo.diagonalPantalla(3),
-                  //   child: Text.rich(
-                  //     TextSpan(
-                  //       children: <TextSpan>[
-                  //         TextSpan(text: 'Ingresa tu número de teléfono '),
-                  //         TextSpan(
-                  //           text: 'Aquí',
-                  //           style: TextStyle(
-                  //             color: Color.fromRGBO(108, 99, 255, 1),
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //     textAlign: TextAlign.center,
-                  //   ),
-                  // ),
                   SizedBox(height: responsivo.altoPantalla(2)),
                   SizedBox(
                     height: responsivo.diagonalPantalla(10),
                     child: CampoTextoFormulario(
-                      controller: _numeroCelular,
+                      onChanged: (v) {
+                        this.phoneNo = v;
+                      },
                       label: 'Número Teléfono',
                       icono: Icon(Icons.phone),
                     ),
                   ),
-
                   SizedBox(
                     height: responsivo.diagonalPantalla(8),
                     child: Text.rich(
@@ -132,53 +92,7 @@ class _CuerpoValidarCelularState extends State<CuerpoValidarCelular> {
                   ),
                   Divider(),
                   Boton(
-                    presionar: () async {
-                      PhoneVerificationCompleted verificacionCompleta =
-                          (AuthCredential credencial) {
-                        Navigator.of(context)
-                            .push(
-                              MaterialPageRoute(
-                                builder: (context) => Listo(),
-                              ),
-                            )
-                            .whenComplete(
-                              () => Timer(
-                                Duration(seconds: 2),
-                                () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => CrearClave(),
-                                    ),
-                                  );
-                                },
-                              ),
-                            );
-                      };
-
-                      PhoneVerificationFailed verificacionFallida =
-                          (FirebaseAuthException exeption) {
-                        print(exeption.code);
-                        print(exeption.message);
-                      };
-                      PhoneCodeSent codigoEnviado =
-                          (String verificacionID, [int codigo]) {
-                        print("Codigo enviado: $codigo");
-                      };
-
-                      final PhoneCodeAutoRetrievalTimeout reenviar =
-                          (String verificacionID) {
-                        CircularProgressIndicator();
-                      };
-
-                      await _auth.verifyPhoneNumber(
-                        phoneNumber: _numeroCelular.text.trim(),
-                        timeout: Duration(seconds: 60),
-                        verificationCompleted: verificacionCompleta,
-                        verificationFailed: verificacionFallida,
-                        codeSent: codigoEnviado,
-                        codeAutoRetrievalTimeout: reenviar,
-                      );
-                    },
+                    presionar: verificarCelular,
                     textoBoton: 'Validar',
                     color: Color.fromRGBO(108, 99, 255, 1),
                   ),
@@ -218,5 +132,88 @@ class _CuerpoValidarCelularState extends State<CuerpoValidarCelular> {
     );
   }
 
-  Future<void> verificarCelular(String celular) async {}
+  Future<void> verificarCelular() async {
+    final PhoneCodeAutoRetrievalTimeout autoRetrievalTimeout = (String verId) {
+      this.verificationId = verId;
+    };
+
+    PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResent]) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Ingresa OTP"),
+              content: TextField(
+                onChanged: (v) {
+                  this.smssent = v;
+                },
+              ),
+              actions: [
+                FlatButton(
+                  child: Text("Enviar OTP"),
+                  onPressed: () {
+                    try {
+                      print(smssent);
+                      print(verificationId);
+
+                      PhoneAuthProvider.credential(
+                          verificationId: verId, smsCode: smssent);
+
+                      Navigator.of(context)
+                          .push(
+                        MaterialPageRoute(
+                          builder: (context) => VentanaCargaNumero(),
+                        ),
+                      )
+                          .timeout(
+                        Duration(seconds: 2),
+                        onTimeout: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => CrearClave(),
+                            ),
+                          );
+                        },
+                      );
+                    } on Exception catch (e) {
+                      handleError(e as PlatformException);
+                    }
+                  },
+                )
+              ],
+            );
+          });
+    };
+
+    final PhoneVerificationCompleted verificado = (AuthCredential auth) {};
+
+    final PhoneVerificationFailed verificationFailed =
+        (FirebaseAuthException e) {
+      print('${e.message}');
+    };
+
+    await _auth.verifyPhoneNumber(
+      phoneNumber: phoneNo,
+      timeout: const Duration(seconds: 20),
+      verificationCompleted: verificado,
+      verificationFailed: verificationFailed,
+      codeSent: smsCodeSent,
+      codeAutoRetrievalTimeout: autoRetrievalTimeout,
+    );
+  }
+
+  void handleError(PlatformException error) {
+    switch (error.code) {
+      case 'ERROR_INVALID_VERIFICATION_CODE':
+        FocusScope.of(context).requestFocus(FocusNode());
+        setState(() {
+          print('Invalid Code');
+        });
+        print('Invalid Code');
+        break;
+      default:
+        print('Invalid Code');
+        break;
+    }
+  }
 }

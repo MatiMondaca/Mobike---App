@@ -1,19 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:mobike/home/homeScreen.dart';
-import 'package:mobike/loginRegister/login/loginScreen.dart';
-import 'package:mobike/loginRegister/register/crearClave/crearClave.dart';
-import 'package:mobike/loginRegister/register/registerScreen.dart';
-import 'package:mobike/loginRegister/register/tarjetaCredito/tarjetaScreen.dart';
-import 'package:mobike/loginRegister/register/validarNumeroCelular/validarNumero.dart';
+import 'package:mobike/views/Registro/VentanaValidarNumero/mainValidadNumero.dart';
 
-import 'const.dart';
-import 'home/homeScreen.dart';
 import 'localizador.dart';
-import 'loginRegister/login/loginScreen.dart';
-import 'loginRegister/login/loginScreen.dart';
-import 'loginRegister/register/validarNumeroCelular/validacion.dart';
 import 'utils/theme.dart';
 
 Future<void> main() async {

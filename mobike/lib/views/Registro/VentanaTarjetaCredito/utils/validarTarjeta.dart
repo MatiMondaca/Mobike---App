@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobike/Controllers/controladorTarjetaCredito.dart';
-import 'package:mobike/Models/tarjetaCreditoModel.dart';
 import 'package:mobike/localizador.dart';
 
-import '../../../const.dart';
-import '../registerScreen.dart';
 
 class ValidarTarjeta extends StatefulWidget {
   const ValidarTarjeta({

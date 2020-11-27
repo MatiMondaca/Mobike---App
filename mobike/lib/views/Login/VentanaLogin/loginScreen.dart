@@ -4,9 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_multi_formatter/utils/unfocuser.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobike/Controllers/controladorFirebase.dart';
+import 'package:mobike/utils/constantes.dart';
 import 'package:mobike/views/Home/VentanaHome/homeScreen.dart';
 
-import 'package:mobike/const.dart';
 import 'package:mobike/views/Login/VentanaLogin/utils/cargarSiguiente.dart';
 import 'package:mobike/views/Registro/VentanaRegistro/mainVentanaRegistro.dart';
 

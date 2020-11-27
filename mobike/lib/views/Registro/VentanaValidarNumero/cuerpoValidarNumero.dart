@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mobike/utils/constantes.dart';
 import 'package:mobike/views/Registro/VentanaValidarNumero/utils/VentanaCargaNumero.dart';
-import 'package:mobike/const.dart';
 import 'package:mobike/utils/responsivo.dart';
 import 'package:mobike/views/Registro/VentanaCrearClave/crearClave.dart';
 
@@ -14,7 +14,8 @@ class CuerpoValidarCelular extends StatefulWidget {
 
 class _CuerpoValidarCelularState extends State<CuerpoValidarCelular> {
   // ControladorFirebase _authCon = locator.get<ControladorFirebase>();
-  // TextEditingController _numeroCelular = TextEditingController();
+  TextEditingController _numeroCelular = TextEditingController();
+  TextEditingController _codigoVerficacion = TextEditingController();
   FirebaseAuth _auth = FirebaseAuth.instance;
   String phoneNo, smssent, verificationId;
   get verificado => null;
@@ -37,9 +38,7 @@ class _CuerpoValidarCelularState extends State<CuerpoValidarCelular> {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(
-              height: responsivo.diagonalPantalla(1),
-            ),
+            SizedBox(height: responsivo.diagonalPantalla(1)),
             Text(
               "Ingresa tu número de celular. Te llegará un código de verificación para validar tu teléfono.",
               style: TextStyle(
@@ -55,13 +54,19 @@ class _CuerpoValidarCelularState extends State<CuerpoValidarCelular> {
                   SizedBox(
                     height: responsivo.diagonalPantalla(10),
                     child: CampoTextoFormulario(
+                      tipoTeclado: TextInputType.phone,
+                      largoMaximo: 12,
+                      estilo: TextStyle(fontSize: 7),
+                      controller: _numeroCelular,
                       onChanged: (v) {
-                        this.phoneNo = v;
+                        print(_numeroCelular.text);
+                        phoneNo = v;
                       },
                       label: 'Número Teléfono',
                       icono: Icon(Icons.phone),
                     ),
                   ),
+                  SizedBox(height: responsivo.diagonalPantalla(1)),
                   SizedBox(
                     height: responsivo.diagonalPantalla(8),
                     child: Text.rich(
@@ -134,30 +139,36 @@ class _CuerpoValidarCelularState extends State<CuerpoValidarCelular> {
 
   Future<void> verificarCelular() async {
     final PhoneCodeAutoRetrievalTimeout autoRetrievalTimeout = (String verId) {
-      this.verificationId = verId;
+      verificationId = verId;
+      print(verificationId);
     };
 
-    PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResent]) {
+    final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResent]) {
+      final _codigoController = TextEditingController();
       showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text("Ingresa OTP"),
+              title: Text(
+                "Ingresa el código",
+                textAlign: TextAlign.center,
+              ),
               content: TextField(
-                onChanged: (v) {
-                  this.smssent = v;
-                },
+                controller: _codigoController,
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               ),
               actions: [
-                FlatButton(
-                  child: Text("Enviar OTP"),
-                  onPressed: () {
+                Boton(
+                  textoBoton: 'Verificar',
+                  color: Color.fromRGBO(108, 99, 255, 1),
+                  presionar: () {
                     try {
-                      print(smssent);
-                      print(verificationId);
-
                       PhoneAuthProvider.credential(
-                          verificationId: verId, smsCode: smssent);
+                        verificationId: verId,
+                        smsCode: _codigoController.text.trim(),
+                      );
 
                       Navigator.of(context)
                           .push(
@@ -179,7 +190,7 @@ class _CuerpoValidarCelularState extends State<CuerpoValidarCelular> {
                       handleError(e as PlatformException);
                     }
                   },
-                )
+                ),
               ],
             );
           });
@@ -194,7 +205,7 @@ class _CuerpoValidarCelularState extends State<CuerpoValidarCelular> {
 
     await _auth.verifyPhoneNumber(
       phoneNumber: phoneNo,
-      timeout: const Duration(seconds: 20),
+      timeout: const Duration(seconds: 60),
       verificationCompleted: verificado,
       verificationFailed: verificationFailed,
       codeSent: smsCodeSent,

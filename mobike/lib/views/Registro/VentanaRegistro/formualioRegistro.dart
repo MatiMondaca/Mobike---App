@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobike/Controllers/controladorFirebase.dart';
 import 'package:mobike/Controllers/controladorTarjetaCredito.dart';
-import 'package:mobike/const.dart';
 import 'package:mobike/localizador.dart';
+import 'package:mobike/utils/constantes.dart';
 import 'package:mobike/views/Registro/VentanaTarjetaCredito/tarjetaScreen.dart';
 import 'package:mobike/utils/responsivo.dart';
 
@@ -194,7 +194,7 @@ class _FormularioRegistroState extends State<FormularioRegistro> {
                 print(e);
               }
             },
-            textoBoton: '¡Estoy Listo!',
+            textoBoton: 'Siguiente',
             color: Color.fromRGBO(108, 99, 255, 1),
           ),
           SizedBox(height: responsivo.diagonalPantalla(1.5)),

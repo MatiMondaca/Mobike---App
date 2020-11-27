@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mobike/utils/constantes.dart';
 
-import '../const.dart';
+
 
 ThemeData theme() {
   return ThemeData(

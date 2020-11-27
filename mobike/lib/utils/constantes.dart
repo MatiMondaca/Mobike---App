@@ -1,55 +1,19 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
-import 'Controllers/controladorFirebase.dart';
-import 'localizador.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:mobike/Controllers/controladorFirebase.dart';
+import 'package:mobike/localizador.dart';
+
+// Colores del texto en general
+const kColorTexto = Color(0xFF757575);
+const kColorTextoSecundario = Color(0xFF979797);
+
+// SVG iconos bicicleta
 const iconBicicleta = 'assets/svg/pinBici.svg';
 const iconBicicletaLogin = 'assets/svg/bicicleta.svg';
-ControladorFirebase _authCon = locator.get<ControladorFirebase>();
 
-///
-/// Titulo AppBar Home
-///
-Widget appbar = Text(
-  "Mobike",
-  style: TextStyle(
-    color: Colors.black,
-    fontSize: 30.0,
-  ),
-  textAlign: TextAlign.center,
-);
-
-// Cuerpo de la alerta al momento de presionar el boton back
-AlertDialog cuerpoAlerta(BuildContext context) {
-  return AlertDialog(
-    title: Text(
-      "¿Seguro que quiere salir de la aplicación?",
-      textAlign: TextAlign.left,
-    ),
-    actions: [
-      FlatButton(
-        child: Text(
-          "No",
-          style: TextStyle(fontSize: 15),
-        ),
-        onPressed: () {
-          Navigator.of(context).pop(false);
-        },
-      ),
-      FlatButton(
-        child: Text(
-          "Si",
-          style: TextStyle(fontSize: 15),
-        ),
-        onPressed: () {
-          _authCon.cerrarSesion();
-          exit(0);
-        },
-      ),
-    ],
-  );
-}
-
+// Boton
 class Boton extends StatelessWidget {
   const Boton({
     Key key,
@@ -83,6 +47,7 @@ class Boton extends StatelessWidget {
   }
 }
 
+// Campo de texto para formulario
 class CampoTextoFormulario extends StatelessWidget {
   const CampoTextoFormulario({
     this.controller,
@@ -98,6 +63,7 @@ class CampoTextoFormulario extends StatelessWidget {
     this.focus,
     this.campoListo,
     this.iconoSufijo,
+    this.formater,
   });
 
   final TextStyle estilo;
@@ -113,6 +79,7 @@ class CampoTextoFormulario extends StatelessWidget {
   final FocusNode focus;
   final Function campoListo;
   final Icon iconoSufijo;
+  final List<TextInputFormatter> formater;
 
   @override
   Widget build(BuildContext context) {
@@ -126,6 +93,8 @@ class CampoTextoFormulario extends StatelessWidget {
       focusNode: focus,
       maxLength: largoMaximo,
       keyboardType: tipoTeclado,
+      inputFormatters: formater,
+      
       decoration: buildInputDecoration(),
     );
   }
@@ -144,5 +113,35 @@ class CampoTextoFormulario extends StatelessWidget {
   }
 }
 
-const kColorTexto = Color(0xFF757575);
-const kColorTextoSecundario = Color(0xFF979797);
+// Cuerpo de la alerta al momento de presionar el boton back
+ControladorFirebase _authCon = locator.get<ControladorFirebase>();
+
+AlertDialog cuerpoAlerta(BuildContext context) {
+  return AlertDialog(
+    title: Text(
+      "¿Seguro que quiere salir de la aplicación?",
+      textAlign: TextAlign.left,
+    ),
+    actions: [
+      FlatButton(
+        child: Text(
+          "No",
+          style: TextStyle(fontSize: 15),
+        ),
+        onPressed: () {
+          Navigator.of(context).pop(false);
+        },
+      ),
+      FlatButton(
+        child: Text(
+          "Si",
+          style: TextStyle(fontSize: 15),
+        ),
+        onPressed: () {
+          _authCon.cerrarSesion();
+          exit(0);
+        },
+      ),
+    ],
+  );
+}

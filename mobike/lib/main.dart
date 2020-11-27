@@ -5,6 +5,7 @@ import 'package:mobike/views/Registro/VentanaValidarNumero/mainValidadNumero.dar
 
 import 'localizador.dart';
 import 'utils/theme.dart';
+import 'views/Home/VentanaHome/homeScreen.dart';
 import 'views/Login/VentanaLogin/loginScreen.dart';
 
 
@@ -43,7 +44,7 @@ class Autenticacion extends StatelessWidget {
         if (snapshot.hasData && snapshot.data != null) {
           return SingInPage();
         }
-        return SingInPage();
+        return HomePage();
       },
     );
   }

@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:latlong/latlong.dart';
-import 'package:mobike/const.dart';
+import 'package:mobike/utils/constantes.dart';
 
 class MapMobike extends StatelessWidget {
-  const MapMobike({
-    Key key,
-  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

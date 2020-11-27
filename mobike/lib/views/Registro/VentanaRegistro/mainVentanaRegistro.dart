@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/utils/unfocuser.dart';
-import 'package:mobike/const.dart';
+import 'package:mobike/utils/constantes.dart';
 import 'package:mobike/views/Registro/VentanaRegistro/cuerpoRegistro.dart';
 import 'package:mobike/Controllers/controladorTarjetaCredito.dart';
-import 'package:mobike/Models/tarjetaCreditoModel.dart';
 import 'package:mobike/localizador.dart';
 
 import '../../../Controllers/controladorTarjetaCredito.dart';
-import '../VentanaTarjetaCredito/tarjetaScreen.dart';
 
 // ignore: must_be_immutable
 class RegisterScreen extends StatefulWidget {

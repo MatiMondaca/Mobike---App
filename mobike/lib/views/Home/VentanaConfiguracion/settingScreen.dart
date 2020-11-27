@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobike/Controllers/controladorFirebase.dart';
-import 'package:mobike/views/VentanaLogin/loginScreen.dart';
 
 import '../../../localizador.dart';
+import '../../Login/VentanaLogin/loginScreen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key key}) : super(key: key);

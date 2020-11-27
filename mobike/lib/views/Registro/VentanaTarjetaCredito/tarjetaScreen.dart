@@ -6,7 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:flutter_multi_formatter/formatters/credit_card_number_input_formatter.dart';
 import 'package:flutter_multi_formatter/utils/unfocuser.dart';
-import 'package:mobike/const.dart';
+import 'package:mobike/utils/constantes.dart';
+
 
 import 'package:mobike/views/Registro/VentanaTarjetaCredito/utils/validarTarjeta.dart';
 

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:mobike/utils/constantes.dart';
 import 'package:mobike/views/Home/VentanaAsistencia/AssistPage.dart';
 import 'package:mobike/views/Home/VentanaPerfilUsuario/userPerfil.dart';
+
+import '../../../api/API_MapBox.dart';
+import '../VentanaConfiguracion/settingScreen.dart';
 //import 'package:mobike/views/Home/VentanaPerfilUsuario/userProfile.dart';
 
-import '../../Home/VentanaConfiguracion/settingScreen.dart';
-import '../../../const.dart';
-import '../../../api/API_MapBox.dart';
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -19,7 +21,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: appbar,
+        title: Text("Mobike"),
         leading: Padding(
           padding: const EdgeInsets.only(left: 5),
           child: IconButton(

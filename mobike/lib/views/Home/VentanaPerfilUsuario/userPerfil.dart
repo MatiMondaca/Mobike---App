@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:mobike/Controllers/controladorFirebase.dart';
 import 'package:mobike/localizador.dart';
 import 'package:mobike/Models/modeloUsuario.dart';
 import 'package:mobike/Controllers/controladorUsuario.dart';
@@ -17,8 +18,24 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   ModeloUsuario _currentUser = locator.get<UserController>().currentUser;
+  var us = locator.get<UserController>();
+  var authCon = locator.get<ControladorFirebase>();
+  @override
+  void initState() {
+    setState() {}
+    () async {
+      await us.getUserData(authCon.obtenerUsuario().getUid);
+    };
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    // setState() {}
+    () async {
+      await us.getUserData(authCon.obtenerUsuario().getUid);
+    };
+    setState() {}
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -28,8 +45,8 @@ class _ProfileViewState extends State<ProfileView> {
               decoration: BoxDecoration(
                 color: Color.fromRGBO(108, 99, 255, 1),
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20.0),
-                  bottomRight: Radius.circular(20.0),
+                  bottomLeft: Radius.circular(50.0),
+                  bottomRight: Radius.circular(50.0),
                 ),
               ),
               child: Column(
@@ -45,11 +62,13 @@ class _ProfileViewState extends State<ProfileView> {
                           .get<UserController>()
                           .uploadProfilePicture(image);
 
-                      setState(() {});
+                      // setState(() {});
                     },
                   ),
                   Text(
-                      "Hi ${_currentUser.displayName ?? 'nice to see you here.'}", style: TextStyle(color: Colors.white),),
+                    "Hi ${_currentUser.displayName ?? 'nice to see you here.'}",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ],
               ),
             ),

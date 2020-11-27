@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_multi_formatter/utils/unfocuser.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobike/Controllers/controladorFirebase.dart';
 import 'package:mobike/utils/constantes.dart';
 import 'package:mobike/views/Home/VentanaHome/homeScreen.dart';
 
 import 'package:mobike/views/Login/VentanaLogin/utils/cargarSiguiente.dart';
+import 'package:mobike/views/Login/VentanaRecuperarClave/recuperarClave.dart';
 import 'package:mobike/views/Registro/VentanaRegistro/mainVentanaRegistro.dart';
 
 import 'package:mobike/localizador.dart';
@@ -99,7 +101,9 @@ class _VentanaLoginState extends State<VentanaLogin> {
                                 children: [
                                   Spacer(),
                                   FlatButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      pushPage(context, RecuperarClave());
+                                    },
                                     child: Text(
                                       "¿Olvidaste tu contraseña?",
                                       style: TextStyle(
@@ -140,15 +144,15 @@ class _VentanaLoginState extends State<VentanaLogin> {
                                         print(e.code);
                                       }
                                     } else {
-                                      // return Fluttertoast.showToast(
-                                      //   msg: "Correo y/o contraseña invalidos",
-                                      //   toastLength: Toast.LENGTH_SHORT,
-                                      //   gravity: ToastGravity.BOTTOM,
-                                      //   timeInSecForIosWeb: 1,
-                                      //   backgroundColor: Colors.red,
-                                      //   textColor: Colors.white,
-                                      //   fontSize: 16.0,
-                                      // );
+                                      return Fluttertoast.showToast(
+                                        msg: "Correo y/o contraseña invalidos",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.red,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0,
+                                      );
                                     }
                                   }
                                 },
@@ -235,8 +239,8 @@ class ParteInferior extends StatelessWidget {
             ),
             FlatButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => RegisterScreen()));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => RegisterScreen()));
               },
               child: Text(
                 "Regístrate",

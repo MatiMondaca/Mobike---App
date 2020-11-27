@@ -12,6 +12,8 @@ const kColorTextoSecundario = Color(0xFF979797);
 // SVG iconos bicicleta
 const iconBicicleta = 'assets/svg/pinBici.svg';
 const iconBicicletaLogin = 'assets/svg/bicicleta.svg';
+const bicicleta = 'assets/svg/bici.svg';
+const cuidado = 'assets/svg/cuidado.svg';
 
 // Boton
 class Boton extends StatelessWidget {
@@ -64,6 +66,8 @@ class CampoTextoFormulario extends StatelessWidget {
     this.campoListo,
     this.iconoSufijo,
     this.formater,
+    this.validacion,
+    this.inputBorder,
   });
 
   final TextStyle estilo;
@@ -80,6 +84,8 @@ class CampoTextoFormulario extends StatelessWidget {
   final Function campoListo;
   final Icon iconoSufijo;
   final List<TextInputFormatter> formater;
+  final Function validacion;
+  final InputBorder inputBorder;
 
   @override
   Widget build(BuildContext context) {
@@ -94,13 +100,14 @@ class CampoTextoFormulario extends StatelessWidget {
       maxLength: largoMaximo,
       keyboardType: tipoTeclado,
       inputFormatters: formater,
-      
+      validator: validacion,
       decoration: buildInputDecoration(),
     );
   }
 
   InputDecoration buildInputDecoration() {
     return InputDecoration(
+      border: inputBorder,
       prefixText: textoPrefijo,
       suffixIcon: iconoSufijo,
       hintText: hint,
@@ -144,4 +151,14 @@ AlertDialog cuerpoAlerta(BuildContext context) {
       ),
     ],
   );
+}
+
+void pushPage(BuildContext context, Widget page) {
+  Navigator.of(context).push(
+    MaterialPageRoute<void>(builder: (_) => page),
+  );
+}
+
+void popPage(BuildContext context) {
+  Navigator.of(context).pop();
 }

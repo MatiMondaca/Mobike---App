@@ -49,7 +49,7 @@ dependencies:
    #libreria para facilitar el uso del patron MVC
   mvc_pattern: ^3.4.1
   #Libreria para utilizar toast de forma sencilla, ya que flutter por defecto sólo posee snackbar
-  # fluttertoast: ^7.1.1
+  fluttertoast: ^7.1.1
   #Libreria utilizada para lanzar una url o numero telefonico(hace llamado a la app del telefono, no directamente)
   url_launcher: ^5.7.10
 
@@ -82,10 +82,12 @@ flutter:
     - assets/svg/persona_sentada.svg
     - assets/svg/persona.svg
     - assets/svg/correcto.svg
-    - assets/svg/visa.svg
     - assets/svg/mastercard.svg
     - assets/svg/authentication.svg
     - assets/svg/celular.svg
+    - assets/svg/bici.svg
+    - assets/svg/cuidado.svg
+    - assets/svg/completado.svg
     
     - alerta.png
     - sos.png

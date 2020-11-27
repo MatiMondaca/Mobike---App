@@ -1,145 +1,133 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mobike/Controllers/controladorFirebase.dart';
+import 'package:mobike/Controllers/controladorUsuario.dart';
+import 'package:mobike/Models/modeloUsuario.dart';
+import 'package:mobike/api/API_MapBox.dart';
+import 'package:mobike/localizador.dart';
 import 'package:mobike/utils/constantes.dart';
+import 'package:mobike/utils/responsivo.dart';
 import 'package:mobike/views/Home/VentanaAsistencia/AssistPage.dart';
+import 'package:mobike/views/Home/VentanaConfiguracion/settingScreen.dart';
 import 'package:mobike/views/Home/VentanaPerfilUsuario/userPerfil.dart';
 
-import '../../../api/API_MapBox.dart';
-import '../VentanaConfiguracion/settingScreen.dart';
-//import 'package:mobike/views/Home/VentanaPerfilUsuario/userProfile.dart';
+class HomePage extends StatelessWidget {
+  static ModeloUsuario _traerDatosUsuario =
+      locator.get<UserController>().registrarUsuario;
 
-
-
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+  var us = locator.get<UserController>();
+  var authCon = locator.get<ControladorFirebase>();
   @override
   Widget build(BuildContext context) {
+    final responsivo = Responsivo.of(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
         centerTitle: true,
-        title: Text("Mobike"),
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 5),
-          child: IconButton(
-            icon: Icon(Icons.person),
-            color: Colors.black,
-            iconSize: 40.0,
-            onPressed: () {
-              _pushPage(context, ProfileView());
-              //_pushPage(context, UserProfile());
-            },
+        title: Text(
+          "MoBike",
+          style: TextStyle(
+            fontSize: 20,
           ),
         ),
-
-        ///
-        /// ACTIONS
-        ///
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 5),
-            child: IconButton(
-              icon: Icon(Icons.settings),
-              color: Colors.black,
-              iconSize: 40.0,
-              onPressed: () {
-                _pushPage(context, SettingsScreen());
-              },
-            ),
+        leading: IconButton(
+          icon: Icon(Icons.person),
+          color: Color.fromRGBO(108, 99, 255, 1),
+          iconSize: 30,
+          onPressed: () {
+            us.getUserData(authCon.obtenerUsuario().getUid);
+            print(_traerDatosUsuario.getCorreo);
+            print('${_traerDatosUsuario.getRut} Yo');
+            print('${_traerDatosUsuario.rut} sdfsdfsdfsdfd');
+            pushPage(context, ProfileView());
+          },
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.settings),
+            color: Color.fromRGBO(108, 99, 255, 1),
+            iconSize: 30,
+            onPressed: () {
+              pushPage(context, SettingsScreen());
+            },
           ),
         ],
       ),
-
-      ///
-      /// BODY
-      ///
-      body: WillPopScope(
-        onWillPop: _salirApp,
-        child: SafeArea(
-          child: MapMobike(),
-        ),
-      ),
-
-      ///
-      /// FLOATING BUTTON
-      ///
-      floatingActionButton: Container(
-        height: 70.0,
-        width: 70.0,
-        child: FittedBox(
-          child: FloatingActionButton(
-            onPressed: () {},
-            child: Icon(Icons.search),
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
-      ///
-      /// NAVIGATION BAR
-      ///
+      body: CuerpoHome(),
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
-        child: Container(
-          height: 75,
+        color: Colors.white,
+        notchMargin: 10,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 10),
           child: Row(
-            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(left: 60.0),
-                child: Container(
-                    child: IconButton(
-                  iconSize: 60.0,
-                  icon: Image.asset("assets/alerta.png"),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => AssistPage(),
+                padding: const EdgeInsets.only(left: 20),
+                child: SizedBox(
+                  height: responsivo.diagonalPantalla(7),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        bicicleta,
+                        height: 50,
                       ),
-                    );
-                  },
-                )),
+                      SizedBox(
+                        child: Text(" = 11"),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               Padding(
-                padding: const EdgeInsets.only(right: 60.0),
-                child: Container(
-                    child: IconButton(
-                  iconSize: 60.0,
-                  icon: Image.asset("assets/alerta.png"),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => AssistPage(),
+                padding: const EdgeInsets.only(right: 10),
+                child: SizedBox(
+                  height: responsivo.diagonalPantalla(7),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: Image.asset("assets/alerta.png"),
+                        iconSize: 25,
+                        onPressed: () {
+                          pushPage(context, AssistPage());
+                        },
                       ),
-                    );
-                  },
-                )),
+                      SizedBox(
+                        child: Text("  Asistencia"),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.search_sharp),
+        elevation: 7,
+        backgroundColor: Color.fromRGBO(108, 99, 255, 1),
+        onPressed: () {},
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
+}
 
-  // Metodo para la alerta al momento de presionar el boton back
-  Future<bool> _salirApp() {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return cuerpoAlerta(context);
-      },
-    );
-  }
+class CuerpoHome extends StatefulWidget {
+  @override
+  _CuerpoHomeState createState() => _CuerpoHomeState();
+}
 
-  // Metodo para pasar a otra ventana
-  void _pushPage(BuildContext context, Widget page) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => page),
+class _CuerpoHomeState extends State<CuerpoHome> {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      child: MapMobike(),
     );
   }
 }

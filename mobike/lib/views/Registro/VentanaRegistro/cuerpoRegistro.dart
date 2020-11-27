@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobike/utils/responsivo.dart';
-import 'package:mobike/views/Registro/VentanaRegistro/formualioRegistro.dart';
+import 'package:mobike/views/Registro/VentanaRegistro/formularioRegistro.dart';
 
 class CuerpoRegistro extends StatelessWidget {
   const CuerpoRegistro({Key key}) : super(key: key);

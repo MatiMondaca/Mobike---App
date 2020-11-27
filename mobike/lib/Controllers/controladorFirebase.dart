@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 // import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobike/Models/modeloUsuario.dart';
@@ -21,14 +23,14 @@ class ControladorFirebase {
       final User user = res.user;
       return user;
     } catch (error) {
-      // Fluttertoast.showToast(
-      //     msg: "Correo y/o contraseña invalidos",
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     timeInSecForIosWeb: 1,
-      //     backgroundColor: Colors.red,
-      //     textColor: Colors.white,
-      //     fontSize: 16.0);
+      Fluttertoast.showToast(
+          msg: "Correo y/o contraseña invalidos",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
     }
   }
 
@@ -69,7 +71,7 @@ class ControladorFirebase {
   ModeloUsuario obtenerUsuario() {
     var usuarioFirebase = _auth.currentUser;
     return ModeloUsuario(
-      usuarioFirebase?.uid,
+      uid: usuarioFirebase?.uid,
       displayName: usuarioFirebase?.displayName,
     );
   }
@@ -85,17 +87,16 @@ class ControladorFirebase {
     firebaseUser.updatePassword(password);
   }
 
-  void registrarUsuario(
-      String rut,
-      String nombre,
-      String apellido,
-      String comuna,
-      String numTarjeta,
-      String direccion,
-      String correo,
-      String clave,
-      String telefono,
-      [String avatarUrl]) async {
+  Future<bool> registrarUsuario(
+    String rut,
+    String displayName,
+    String comuna,
+    String numTarjeta,
+    String direccion,
+    String correo,
+    String clave,
+    String telefono,
+  ) async {
     final User firebaseUser = (await _auth.createUserWithEmailAndPassword(
             email: correo, password: clave))
         .user;
@@ -104,19 +105,21 @@ class ControladorFirebase {
       try {
         Map datosUsuario = {
           "rut": rut,
-          "nombre": nombre,
-          "apellido": apellido,
+          "nombre": displayName,
           "comuna": comuna,
           "numero_tarjeta": numTarjeta,
           "direccion": direccion,
           "correo": correo,
           "telefono": telefono,
-          "avatar": avatarUrl,
         };
         usuarioRef.child(firebaseUser.uid).set(datosUsuario);
+        return true;
       } on FirebaseException catch (e) {
         print(e);
+        return false;
       }
+    } else {
+      return false;
     }
   }
 }

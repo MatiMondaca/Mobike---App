@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mobike/Controllers/controladorUsuario.dart';
+import 'package:mobike/Models/modeloUsuario.dart';
+import 'package:mobike/localizador.dart';
 import 'package:mobike/utils/constantes.dart';
 import 'package:mobike/views/Registro/VentanaValidarNumero/utils/VentanaCargaNumero.dart';
 import 'package:mobike/utils/responsivo.dart';
@@ -15,7 +18,9 @@ class CuerpoValidarCelular extends StatefulWidget {
 class _CuerpoValidarCelularState extends State<CuerpoValidarCelular> {
   // ControladorFirebase _authCon = locator.get<ControladorFirebase>();
   TextEditingController _numeroCelular = TextEditingController();
-  TextEditingController _codigoVerficacion = TextEditingController();
+  UserController _guardarDatosUser = locator.get<UserController>();
+  ModeloUsuario _modeloUsuario = locator.get<UserController>().registrarUsuario;
+
   FirebaseAuth _auth = FirebaseAuth.instance;
   String phoneNo, smssent, verificationId;
   get verificado => null;
@@ -97,7 +102,9 @@ class _CuerpoValidarCelularState extends State<CuerpoValidarCelular> {
                   ),
                   Divider(),
                   Boton(
-                    presionar: verificarCelular,
+                    presionar: () {
+                      verificarCelular();
+                    },
                     textoBoton: 'Validar',
                     color: Color.fromRGBO(108, 99, 255, 1),
                   ),
@@ -145,6 +152,7 @@ class _CuerpoValidarCelularState extends State<CuerpoValidarCelular> {
 
     final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResent]) {
       final _codigoController = TextEditingController();
+      ModeloUsuario _datos = locator.get<UserController>().registrarUsuario;
       showDialog(
           barrierDismissible: false,
           context: context,
@@ -165,9 +173,14 @@ class _CuerpoValidarCelularState extends State<CuerpoValidarCelular> {
                   color: Color.fromRGBO(108, 99, 255, 1),
                   presionar: () {
                     try {
+                      print(_datos.getCorreo);
+
+                      _datos.setCelular = _numeroCelular.text;
+
+                      print('sfasdfasffasfdf  ${_datos.getCelular}');
                       PhoneAuthProvider.credential(
                         verificationId: verId,
-                        smsCode: _codigoController.text.trim(),
+                        smsCode: _codigoController.text,
                       );
 
                       Navigator.of(context)

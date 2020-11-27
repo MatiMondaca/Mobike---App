@@ -1,13 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:mobike/views/Home/VentanaAsistencia/AssistPage.dart';
+import 'package:mobike/views/Home/VentanaPerfilUsuario/userPerfil.dart';
+import 'package:mobike/views/Login/VentanaRecuperarClave/recuperarClave.dart';
+import 'package:mobike/views/Registro/VentanaCrearClave/utils/ventanaCarga.dart';
+import 'package:mobike/views/Registro/VentanaTarjetaCredito/tarjetaScreen.dart';
 import 'package:mobike/views/Registro/VentanaValidarNumero/mainValidadNumero.dart';
 
 import 'localizador.dart';
 import 'utils/theme.dart';
 import 'views/Home/VentanaHome/homeScreen.dart';
 import 'views/Login/VentanaLogin/loginScreen.dart';
-
 
 Future<void> main() async {
   //ERROR AQUI - MAIN
@@ -42,9 +46,9 @@ class Autenticacion extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
-          return SingInPage();
+          return HomePage();
         }
-        return HomePage();
+        return SingInPage();
       },
     );
   }

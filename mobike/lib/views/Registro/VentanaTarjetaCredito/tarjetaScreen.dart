@@ -8,13 +8,9 @@ import 'package:flutter_multi_formatter/formatters/credit_card_number_input_form
 import 'package:flutter_multi_formatter/utils/unfocuser.dart';
 import 'package:mobike/utils/constantes.dart';
 
-
 import 'package:mobike/views/Registro/VentanaTarjetaCredito/utils/validarTarjeta.dart';
 
 class TarjetaCredito extends StatefulWidget {
-  TarjetaCredito({this.numTarjeta});
-  final String numTarjeta;
-
   @override
   _TarjetaCreditoState createState() => _TarjetaCreditoState();
 }
@@ -200,7 +196,7 @@ class _TarjetaCreditoState extends State<TarjetaCredito> {
   // CAMPO CODIGO DE VERIFICACIÓN
   Container buildCVV() {
     return Container(
-      width: 195,
+      width: 150,
       child: Padding(
         padding: const EdgeInsets.only(
           right: 20.0,

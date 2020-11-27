@@ -26,7 +26,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
               locator.get<ControladorTarjeta>().initTarjeta();
-              _popPage(context);
+              popPage(context);
             },
           ),
         ),
@@ -35,9 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  void _popPage(BuildContext context) {
-    Navigator.of(context).pop();
-  }
+
 
   // METODO PARA GENERAR TEXTFIELD - SE AGREGA COMO PARAMETRO CONTROLLER
   Padding buildCampoTextoRegistro(TextEditingController controller) {

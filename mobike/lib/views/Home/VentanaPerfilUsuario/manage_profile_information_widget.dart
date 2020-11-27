@@ -1,7 +1,10 @@
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobike/localizador.dart';
 import 'package:mobike/Models/modeloUsuario.dart';
 import 'package:mobike/Controllers/controladorUsuario.dart';
 import 'package:flutter/material.dart';
+import 'package:mobike/utils/constantes.dart';
+import 'package:mobike/utils/responsivo.dart';
 
 class ManageProfileInformationWidget extends StatefulWidget {
   final ModeloUsuario currentUser;
@@ -21,6 +24,7 @@ class _ManageProfileInformationWidgetState
   var _repeatPasswordController = TextEditingController();
 
   var _formKey = GlobalKey<FormState>();
+  String _nombreUsuario;
 
   bool checkCurrentPasswordValid = true;
 
@@ -36,11 +40,13 @@ class _ManageProfileInformationWidgetState
     _passwordController.dispose();
     _newPasswordController.dispose();
     _repeatPasswordController.dispose();
+    setState(() {});
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final responsivo = Responsivo.of(context);
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -57,66 +63,80 @@ class _ManageProfileInformationWidgetState
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
+                    SizedBox(height: responsivo.diagonalPantalla(2)),
                     Text(
-                      "Manage Password",
-                      style: Theme.of(context).textTheme.headline4,
+                      "Administración Contraseña",
+                      style: TextStyle(fontSize: 20),
                     ),
+                    SizedBox(height: responsivo.diagonalPantalla(2)),
                     TextFormField(
+                      obscureText: true,
                       decoration: InputDecoration(
-                        hintText: "Password",
+                        hintText: "Ingrese su contraseña antigua",
                         errorText: checkCurrentPasswordValid
                             ? null
-                            : "Please double check your current password",
+                            : "Por favor, verifique su contraseña antigua",
                       ),
                       controller: _passwordController,
                     ),
+                    SizedBox(height: responsivo.diagonalPantalla(2)),
                     TextFormField(
-                      decoration:
-                          InputDecoration(hintText: "New Password"),
+                      decoration: InputDecoration(hintText: "Nueva contraseña"),
                       controller: _newPasswordController,
                       obscureText: true,
                     ),
+                    SizedBox(height: responsivo.diagonalPantalla(2)),
                     TextFormField(
                       decoration: InputDecoration(
-                        hintText: "Repeat Password",
+                        hintText: "Repita la contraseña",
                       ),
                       obscureText: true,
                       controller: _repeatPasswordController,
                       validator: (value) {
                         return _newPasswordController.text == value
                             ? null
-                            : "Please validate your entered password";
+                            : "Por favor, valide la contraseña ingresada";
                       },
                     )
                   ],
                 ),
               ),
             ),
-            SizedBox(height: 10),
-            RaisedButton(
-              onPressed: () async {
+            SizedBox(height: responsivo.anchoPantalla(4)),
+            Boton(
+              presionar: () async {
                 var userController = locator.get<UserController>();
 
-                if (widget.currentUser.displayName !=
-                    _displayNameController.text) {
-                  var displayName = _displayNameController.text;
-                  userController.updateDisplayName(displayName);
-                }
+                // if (widget.currentUser.displayName !=
+                //     _displayNameController.text) {
+                //   var displayName = _displayNameController.text;
+                //   userController.updateDisplayName(displayName);
+                // }
 
-                checkCurrentPasswordValid =
-                    await userController.validateCurrentPassword(
-                        _passwordController.text);
+                checkCurrentPasswordValid = await userController
+                    .validateCurrentPassword(_passwordController.text);
 
                 setState(() {});
 
                 if (_formKey.currentState.validate() &&
                     checkCurrentPasswordValid) {
-                  userController.updateUserPassword(
-                      _newPasswordController.text);
+                  userController
+                      .updateUserPassword(_newPasswordController.text);
                   Navigator.pop(context);
+
+                  return Fluttertoast.showToast(
+                    msg: "Contraseña Actualizada con Exito",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.green,
+                    textColor: Colors.white,
+                    fontSize: 16.0,
+                  );
                 }
               },
-              child: Text("Save Profile"),
+              textoBoton: 'Guardar Cambios',
+              color: Color.fromRGBO(108, 99, 255, 1),
             )
           ],
         ),
